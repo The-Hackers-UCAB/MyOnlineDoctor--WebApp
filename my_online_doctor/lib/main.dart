@@ -44,7 +44,7 @@ class MyOnlineDoctorApp extends StatelessWidget {
       theme: mainTheme(),
       onGenerateRoute: (RouteSettings settings, ) =>
           RoutesManager.getOnGenerateRoute(settings, arguments: settings.arguments),
-      home: _checkInternet(),
+      home: LoginPage(),
     );
   }
 

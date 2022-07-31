@@ -29,62 +29,56 @@ import 'package:my_online_doctor/infrastructure/ui/video_call/call.dart';
 final getIt = GetIt.instance;
 
 Future<void> backgroundHandler(RemoteMessage message) async {
+  var context = getIt<ContextManager>().context;
 
-    var context = getIt<ContextManager>().context;
+  var response = await showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => const DialogComponent(
+          textTitle: 'Cita médica',
+          textQuestion: 'Desea atenter su llamada?',
+          cancelButton: true));
 
-        var response = await showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) => const DialogComponent(
-                textTitle: 'Cita médica',
-                textQuestion: 'Desea atenter su llamada?',
-                cancelButton: true));
-
-
-      if (response != null && response) {
-
-        await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (buildContext) => CallPage(
-                channelName: message.data['payload']['channelName'],
-                role: ClientRole.Broadcaster,
-              ),
-            ),
-          );
-      }
-
- 
-
+  if (response != null && response) {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (buildContext) => CallPage(
+          channelName: message.data['payload']['channelName'],
+          role: ClientRole.Broadcaster,
+        ),
+      ),
+    );
+  }
 
   // final NavigatorServiceContract _navigatorManager = NavigatorServiceContract.get();
   // _navigatorManager.navigateToWithReplacement('/bottom_menu');
-  print('//////////////////////////////////////////////////////////////////////////////////////////////////////');
+  print(
+      '//////////////////////////////////////////////////////////////////////////////////////////////////////');
   print('backgroundHandler: ${message.notification!.title}');
   print('Payload: ${message.data}');
-  print('//////////////////////////////////////////////////////////////////////////////////////////////////////');
+  print(
+      '//////////////////////////////////////////////////////////////////////////////////////////////////////');
 }
 
 ///InjectionManager: Class that manages the injection of dependencies.
 class InjectionManager {
   static void setupInjections() async {
-
     getIt.registerSingleton<ContextManager>(ContextManager());
     getIt.registerSingleton<RepositoryManager>(RepositoryManager());
-
 
     NavigatorServiceContract.inject();
 
     //FIREBASE
+    //TODO: Revisar Firebase
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-    //Getting the firebase token for the device.
-    FirebaseMessaging.instance.getToken().then((token) {
+    // await Firebase.initializeApp();
+    // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+    // //Getting the firebase token for the device.
+    // FirebaseMessaging.instance.getToken().then((token) {
 
-      LocalStorageProvider.saveData(RepositoryPathConstant.firebaseToken.path, token!);
+    //   LocalStorageProvider.saveData(RepositoryPathConstant.firebaseToken.path, token!);
 
-    });
-
+    // });
 
     //USE CASES
     GetPhonesUseCaseContract.inject();
@@ -99,6 +93,5 @@ class InjectionManager {
     GetDoctorsUseCaseContract.inject();
     CallPatientUseCaseContract.inject();
     ScheduleAppointmentsUseCaseContract.inject();
-
   }
 }
