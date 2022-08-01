@@ -69,14 +69,6 @@ class RepositoryManager {
         response = await dio.get(endpoint);
       } else if (operation == RepositoryConstant.operationPost.key) {
         response = await dio.post(endpoint, data: body);
-
-        if (endpoint ==
-            FlavorManager.baseURL() + RepositoryPathConstant.login.path) {
-          for (var element in response.headers['set-cookie']!) {
-            LocalStorageProvider.saveData(
-                RepositoryPathConstant.cookie.path, element);
-          }
-        }
       } else if (operation == RepositoryConstant.operationPut.key) {
         if (body != null) {
           response = await dio.put(endpoint, data: body);
@@ -90,9 +82,10 @@ class RepositoryManager {
           response = await dio.delete(endpoint);
         }
       }
-
-      dio.close();
+      print("Data");
       print(response?.data);
+      dio.close();
+
       var data = requestValueResponseModelFromJson(response?.data);
 
       return data;

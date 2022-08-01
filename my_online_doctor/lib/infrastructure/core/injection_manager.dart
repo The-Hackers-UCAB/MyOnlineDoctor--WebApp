@@ -71,15 +71,23 @@ class InjectionManager {
     //FIREBASE
     //TODO: Revisar Firebase
     WidgetsFlutterBinding.ensureInitialized();
-    // await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyANPiBSp88mirUgLxn0yYEexScm1uCgJcQ",
+        authDomain: "webapp-a31ae.firebaseapp.com",
+        projectId: "webapp-a31ae",
+        storageBucket: "webapp-a31ae.appspot.com",
+        messagingSenderId: "529367101886",
+        appId: "1:529367101886:web:8b6eb7164a47ff660bc9ef",
+        measurementId: "G-GLXQZLSNLG",
+      ),
+    );
     // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-    // //Getting the firebase token for the device.
-    // FirebaseMessaging.instance.getToken().then((token) {
-
-    //   LocalStorageProvider.saveData(RepositoryPathConstant.firebaseToken.path, token!);
-
-    // });
-
+    // FirebaseMessaging.instance.getToken().then(
+    //   (token) {
+    //     print("Token: $token");
+    //   },
+    // );
     //USE CASES
     GetPhonesUseCaseContract.inject();
     GetGenreUseCaseContract.inject();
