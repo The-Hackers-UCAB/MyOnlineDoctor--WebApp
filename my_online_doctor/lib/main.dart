@@ -14,9 +14,7 @@ import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 import 'package:my_online_doctor/infrastructure/utils/device_util.dart';
 
-import './infrastructure/ui/video_call/index.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'firebase_options.dart';
 
 //This the main function of the app.

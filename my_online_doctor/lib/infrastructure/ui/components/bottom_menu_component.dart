@@ -11,7 +11,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/firebase-handler/local_notifications.dart';
 import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
-import 'package:my_online_doctor/infrastructure/ui/components/dialog_component.dart';
 
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
