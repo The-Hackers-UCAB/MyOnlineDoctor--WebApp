@@ -11,7 +11,14 @@ class DialogComponent extends StatelessWidget {
   final String? textBtnCancel;
   final bool cancelButton;
 
-  const DialogComponent({Key? key, this.textTitle, this.textQuestion, this.cancelButton = false, this.textBtnAccept, this.textBtnCancel}) : super(key: key);
+  const DialogComponent(
+      {Key? key,
+      this.textTitle,
+      this.textQuestion,
+      this.cancelButton = false,
+      this.textBtnAccept,
+      this.textBtnCancel})
+      : super(key: key);
 
   final double latMargin = 12.0;
   final double topMargin = 20.0;
@@ -21,7 +28,9 @@ class DialogComponent extends StatelessWidget {
     return Dialog(
       elevation: 8,
       backgroundColor: colorSecondary,
-      child: _dialogContent(context),
+      child: Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          child: _dialogContent(context)),
     );
   }
 
@@ -31,7 +40,8 @@ class DialogComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5))),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5))),
           child: Column(
             children: [
               if (textTitle != null) _textMessage(true, context),
@@ -46,10 +56,13 @@ class DialogComponent extends StatelessWidget {
 
   Widget _textMessage(bool title, BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: topMargin, right: latMargin, left: latMargin, bottom: topMargin),
+      padding: EdgeInsets.only(
+          top: topMargin, right: latMargin, left: latMargin, bottom: topMargin),
       child: Text(
         title ? textTitle! : textQuestion!,
-        style: title ? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold) : const TextStyle(fontSize: 14),
+        style: title
+            ? const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+            : const TextStyle(fontSize: 14),
         // style: title ? Theme.of(context).dialogTheme.titleTextStyle : Theme.of(context).dialogTheme.contentTextStyle,
         textAlign: TextAlign.center,
       ),
@@ -66,13 +79,15 @@ class DialogComponent extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: _buttonSingle(true, textBtnCancel ?? TextConstant.cancelButton.text))),
+                  child: _buttonSingle(
+                      true, textBtnCancel ?? TextConstant.cancelButton.text))),
         Expanded(
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).pop(true);
             },
-            child: _buttonSingle(false, textBtnAccept ?? TextConstant.acceptButton.text),
+            child: _buttonSingle(
+                false, textBtnAccept ?? TextConstant.acceptButton.text),
           ),
         ),
       ],
@@ -86,12 +101,21 @@ class DialogComponent extends StatelessWidget {
           border: Border.all(
             color: cancel ? Colors.white : colorPrimary,
           ),
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(cancel ? 5 : cancelButton ? 0:5), bottomRight: Radius.circular(cancel ? 0 : 5))),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(cancel
+                  ? 5
+                  : cancelButton
+                      ? 0
+                      : 5),
+              bottomRight: Radius.circular(cancel ? 0 : 5))),
       height: 40,
       child: Center(
         child: Text(
           title,
-          style: TextStyle(fontSize: 14.0, color: cancel ? colorPrimary : Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 14.0,
+              color: cancel ? colorPrimary : Colors.white,
+              fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
       ),

@@ -28,7 +28,11 @@ class ViewAppointmentsPage extends StatelessWidget {
         builder: (context, state) {
           return BaseUIComponent(
             appBar: _renderAppBar(context),
-            body: _body(context, state),
+            body: Center(
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: _body(context, state)),
+            ),
           );
         },
       ),
