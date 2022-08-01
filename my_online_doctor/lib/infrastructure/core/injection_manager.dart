@@ -1,4 +1,6 @@
 // Package imports:
+import 'dart:ui';
+
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,6 +20,7 @@ import 'package:my_online_doctor/application/use_cases/getters/get_phones_list_u
 import 'package:my_online_doctor/application/use_cases/login_patient/login_patient.dart';
 import 'package:my_online_doctor/application/use_cases/logout_patient/logout_patient.dart';
 import 'package:my_online_doctor/application/use_cases/register_patient/register_patient_use_case.dart';
+import 'package:my_online_doctor/firebase_options.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
 import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/navigator_manager.dart';
@@ -70,18 +73,6 @@ class InjectionManager {
 
     //FIREBASE
     //TODO: Revisar Firebase
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyANPiBSp88mirUgLxn0yYEexScm1uCgJcQ",
-        authDomain: "webapp-a31ae.firebaseapp.com",
-        projectId: "webapp-a31ae",
-        storageBucket: "webapp-a31ae.appspot.com",
-        messagingSenderId: "529367101886",
-        appId: "1:529367101886:web:8b6eb7164a47ff660bc9ef",
-        measurementId: "G-GLXQZLSNLG",
-      ),
-    );
     // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     // FirebaseMessaging.instance.getToken().then(
     //   (token) {
@@ -89,6 +80,7 @@ class InjectionManager {
     //   },
     // );
     //USE CASES
+
     GetPhonesUseCaseContract.inject();
     GetGenreUseCaseContract.inject();
     RegisterPatientUseCaseContract.inject();
