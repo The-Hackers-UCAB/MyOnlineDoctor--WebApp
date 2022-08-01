@@ -1,4 +1,6 @@
 // Package imports:
+import 'dart:ui';
+
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,6 +20,7 @@ import 'package:my_online_doctor/application/use_cases/getters/get_phones_list_u
 import 'package:my_online_doctor/application/use_cases/login_patient/login_patient.dart';
 import 'package:my_online_doctor/application/use_cases/logout_patient/logout_patient.dart';
 import 'package:my_online_doctor/application/use_cases/register_patient/register_patient_use_case.dart';
+import 'package:my_online_doctor/firebase_options.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
 import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/navigator_manager.dart';
@@ -29,64 +32,55 @@ import 'package:my_online_doctor/infrastructure/ui/video_call/call.dart';
 final getIt = GetIt.instance;
 
 Future<void> backgroundHandler(RemoteMessage message) async {
+  var context = getIt<ContextManager>().context;
 
-    var context = getIt<ContextManager>().context;
+  var response = await showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => const DialogComponent(
+          textTitle: 'Cita médica',
+          textQuestion: 'Desea atenter su llamada?',
+          cancelButton: true));
 
-        var response = await showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) => const DialogComponent(
-                textTitle: 'Cita médica',
-                textQuestion: 'Desea atenter su llamada?',
-                cancelButton: true));
-
-
-      if (response != null && response) {
-
-        await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (buildContext) => CallPage(
-                channelName: message.data['payload']['channelName'],
-                role: ClientRole.Broadcaster,
-              ),
-            ),
-          );
-      }
-
- 
-
+  if (response != null && response) {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (buildContext) => CallPage(
+          channelName: message.data['payload']['channelName'],
+          role: ClientRole.Broadcaster,
+        ),
+      ),
+    );
+  }
 
   // final NavigatorServiceContract _navigatorManager = NavigatorServiceContract.get();
   // _navigatorManager.navigateToWithReplacement('/bottom_menu');
-  print('//////////////////////////////////////////////////////////////////////////////////////////////////////');
+  print(
+      '//////////////////////////////////////////////////////////////////////////////////////////////////////');
   print('backgroundHandler: ${message.notification!.title}');
   print('Payload: ${message.data}');
-  print('//////////////////////////////////////////////////////////////////////////////////////////////////////');
+  print(
+      '//////////////////////////////////////////////////////////////////////////////////////////////////////');
 }
 
 ///InjectionManager: Class that manages the injection of dependencies.
 class InjectionManager {
   static void setupInjections() async {
-
     getIt.registerSingleton<ContextManager>(ContextManager());
     getIt.registerSingleton<RepositoryManager>(RepositoryManager());
-
 
     NavigatorServiceContract.inject();
 
     //FIREBASE
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-    //Getting the firebase token for the device.
-    FirebaseMessaging.instance.getToken().then((token) {
-
-      LocalStorageProvider.saveData(RepositoryPathConstant.firebaseToken.path, token!);
-
-    });
-
-
+    //TODO: Revisar Firebase
+    // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+    // FirebaseMessaging.instance.getToken().then(
+    //   (token) {
+    //     print("Token: $token");
+    //   },
+    // );
     //USE CASES
+
     GetPhonesUseCaseContract.inject();
     GetGenreUseCaseContract.inject();
     RegisterPatientUseCaseContract.inject();
@@ -99,6 +93,5 @@ class InjectionManager {
     GetDoctorsUseCaseContract.inject();
     CallPatientUseCaseContract.inject();
     ScheduleAppointmentsUseCaseContract.inject();
-
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:html';
 import 'dart:developer';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,11 +15,11 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
   final _channelController = TextEditingController();
-  bool _validateError =false;
+  bool _validateError = false;
   ClientRole? _role = ClientRole.Broadcaster;
 
   @override
-  void dispose(){
+  void dispose() {
     _channelController.dispose();
     super.dispose();
   }
@@ -38,28 +39,36 @@ class _IndexPageState extends State<IndexPage> {
             TextField(
               controller: _channelController,
               decoration: InputDecoration(
-                errorText: _validateError ? 'Channel required' : null,
-                border: const UnderlineInputBorder(
-                  borderSide: BorderSide(width: 1),
-                ),
-                hintText: 'Channel name'
-              ),
+                  errorText: _validateError ? 'Channel required' : null,
+                  border: const UnderlineInputBorder(
+                    borderSide: BorderSide(width: 1),
+                  ),
+                  hintText: 'Channel name'),
             ),
-            RadioListTile(title: const Text('broadcaster'),
-                onChanged: (ClientRole? value){
-                setState((){ _role = value;}
-                );
-            },
-            value: ClientRole.Broadcaster,
-            groupValue: _role),
-            RadioListTile(title: const Text('Audience'),
-                onChanged: (ClientRole? value){
-                  setState((){ _role = value;}
-                  );
+            RadioListTile(
+                title: const Text('broadcaster'),
+                onChanged: (ClientRole? value) {
+                  setState(() {
+                    _role = value;
+                  });
+                },
+                value: ClientRole.Broadcaster,
+                groupValue: _role),
+            RadioListTile(
+                title: const Text('Audience'),
+                onChanged: (ClientRole? value) {
+                  setState(() {
+                    _role = value;
+                  });
                 },
                 value: ClientRole.Audience,
                 groupValue: _role),
-            ElevatedButton(onPressed: onJoin, child: Text('Join'), style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity,40)),)
+            ElevatedButton(
+              onPressed: onJoin,
+              child: Text('Join'),
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 40)),
+            )
           ],
         ),
       ),
@@ -67,14 +76,15 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   Future<void> onJoin() async {
-    setState((){
+    setState(() {
       _channelController.text.isEmpty
           ? _validateError = true
           : _validateError = false;
     });
-    if(_channelController.text.isNotEmpty){
-      // await _handleCameraAndMic(Permission.camera);
-      // await _handleCameraAndMic(Permission.microphone);
+    if (_channelController.text.isNotEmpty) {
+
+      await window.navigator.getUserMedia(audio: true, video: true);
+
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -86,9 +96,9 @@ class _IndexPageState extends State<IndexPage> {
       );
     }
   }
-  Future<void> _handleCameraAndMic(Permission permission) async {
-    final status = await permission.request();
-    log(status.toString());
-  }
+  // Future<void> _handleCameraAndMic(Permission permission) async {
+  //   final status = await permission.request();
+  //   log(status.toString());
+  // }
 
 }

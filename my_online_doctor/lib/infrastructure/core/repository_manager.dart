@@ -4,6 +4,8 @@ import 'dart:io';
 
 // Package imports:
 import 'package:dio/adapter.dart';
+import 'package:dio/adapter_browser.dart';
+import 'package:dio/browser_imp.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_online_doctor/infrastructure/model/request_value_response_model.dart';
@@ -11,7 +13,6 @@ import 'package:my_online_doctor/infrastructure/providers/local_storage/local_st
 import 'context_manager.dart';
 import 'flavor_manager.dart';
 import 'injection_manager.dart';
-
 
 // Project imports:
 import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
@@ -21,51 +22,45 @@ import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/utils/app_util.dart';
 import 'package:my_online_doctor/infrastructure/model/request_responde_model.dart';
 
-
 ///RepositoryManager: This class is used to manage the repository main connection.
 class RepositoryManager {
-
-
-
   Future<BaseOptions> _dioBaseOptions() async {
-
-    
-
-    var repositoryHeader = <String, dynamic>{}; 
-    var url=FlavorManager.baseURL();
+    var repositoryHeader = <String, dynamic>{"Accept": "application/json"};
+    var url = FlavorManager.baseURL();
     var options = BaseOptions(
         baseUrl: url,
         connectTimeout: const Duration(seconds: 30).inMilliseconds,
         receiveTimeout: const Duration(seconds: 30).inMilliseconds,
         responseType: ResponseType.plain,
         headers: repositoryHeader,
-        contentType: RepositoryConstant.contentType.key);
+        contentType: 'application/json');
     return options;
   }
 
-  void _validateCertificate(Dio dio) {
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
-  }
+  // void _validateCertificate(Dio dio) {
+  //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+  //       (HttpClient client) {
+  //     client.badCertificateCallback =
+  //         (X509Certificate cert, String host, int port) => true;
+  //     return client;
+  //   };
+  // }
 
-  Future<dynamic> request({required String operation, required String endpoint, Map<String,dynamic>? body, bool wompi=false}) async {
-    
-
+  Future<dynamic> request(
+      {required String operation,
+      required String endpoint,
+      Map<String, dynamic>? body,
+      bool wompi = false}) async {
     endpoint = FlavorManager.baseURL() + endpoint;
-    
+
     var setDioOptions = await _dioBaseOptions();
 
-    setDioOptions.headers['cookie'] = await LocalStorageProvider.readData(RepositoryPathConstant.cookie.path) as String;
-
-    var dio = Dio(setDioOptions);
-
-
-
-    _validateCertificate(dio);
+    var dio = DioForBrowser(setDioOptions);
+    var adapter = BrowserHttpClientAdapter();
+    adapter.withCredentials =
+        true; //Se activa el flag de credentials para que el navegador pueda enviar y recibir cookies automaticamente.
+    dio.httpClientAdapter = adapter;
+    // _validateCertificate(dio);
 
     Response? response;
 
@@ -74,13 +69,6 @@ class RepositoryManager {
         response = await dio.get(endpoint);
       } else if (operation == RepositoryConstant.operationPost.key) {
         response = await dio.post(endpoint, data: body);
-
-        if(endpoint == FlavorManager.baseURL() + RepositoryPathConstant.login.path){
-          for (var element in response.headers['set-cookie']!) {
-            LocalStorageProvider.saveData(RepositoryPathConstant.cookie.path, element);
-          }
-        }
-
       } else if (operation == RepositoryConstant.operationPut.key) {
         if (body != null) {
           response = await dio.put(endpoint, data: body);
@@ -94,11 +82,11 @@ class RepositoryManager {
           response = await dio.delete(endpoint);
         }
       }
-
+      print("Data");
+      print(response?.data);
       dio.close();
 
       var data = requestValueResponseModelFromJson(response?.data);
-
 
       return data;
       // return response?.data;
@@ -111,19 +99,32 @@ class RepositoryManager {
   void _errorRequest(DioError e) async {
     var error = requestResponseModelFromJson(e.response!.data);
 
-    if (DioErrorType.receiveTimeout == e.type || DioErrorType.connectTimeout == e.type) {
-      AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message:error.message ?? TextConstant.errorTimeoutConnection.text);
+    if (DioErrorType.receiveTimeout == e.type ||
+        DioErrorType.connectTimeout == e.type) {
+      AppUtil.showDialogUtil(
+          context: getIt<ContextManager>().context,
+          title: TextConstant.errorTitle.text,
+          message: error.message ?? TextConstant.errorTimeoutConnection.text);
       throw 600;
     } else if (e.message.contains('SocketException')) {
-      AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message:error.message ?? TextConstant.errorInternetConnection.text);
+      AppUtil.showDialogUtil(
+          context: getIt<ContextManager>().context,
+          title: TextConstant.errorTitle.text,
+          message: error.message ?? TextConstant.errorInternetConnection.text);
       throw 600;
     } else {
       switch (e.response!.statusCode!) {
         case 401:
-          AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message:error.message ?? TextConstant.errorUnauthorized.text);
+          AppUtil.showDialogUtil(
+              context: getIt<ContextManager>().context,
+              title: TextConstant.errorTitle.text,
+              message: error.message ?? TextConstant.errorUnauthorized.text);
           throw 401;
         case 404:
-          AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message:error.message ?? TextConstant.errorServer.text);
+          AppUtil.showDialogUtil(
+              context: getIt<ContextManager>().context,
+              title: TextConstant.errorTitle.text,
+              message: error.message ?? TextConstant.errorServer.text);
           throw 404;
 
         case 403:
@@ -138,19 +139,21 @@ class RepositoryManager {
           //   );
           // Navigator.of(getIt<ContextManager>().context).pushNamedAndRemoveUntil(LoginPage.routeName, (Route<dynamic> route) => false);
 
-
           break;
 
         case 500:
-        
-          AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message: error.message ?? TextConstant.errorServer.text);
+          AppUtil.showDialogUtil(
+              context: getIt<ContextManager>().context,
+              title: TextConstant.errorTitle.text,
+              message: error.message ?? TextConstant.errorServer.text);
           throw 500;
         default:
-          AppUtil.showDialogUtil(context: getIt<ContextManager>().context, title: TextConstant.errorTitle.text, message: error.message ?? TextConstant.errorServer.text);
+          AppUtil.showDialogUtil(
+              context: getIt<ContextManager>().context,
+              title: TextConstant.errorTitle.text,
+              message: error.message ?? TextConstant.errorServer.text);
           throw e.response!.statusCode!;
       }
     }
   }
-
-
 }

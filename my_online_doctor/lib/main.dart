@@ -1,4 +1,5 @@
 // Package imports
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
@@ -16,13 +17,16 @@ import 'package:my_online_doctor/infrastructure/utils/device_util.dart';
 import './infrastructure/ui/video_call/index.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'firebase_options.dart';
+
 //This the main function of the app.
-void main() {
+void main() async {
   InjectionManager.setupInjections(); //Here we setup the injections.
 
-  FlavorManager.make(
-      Flavor.PRODUCTION); //Here we set the flavor5 that we want to use.
+  WidgetsFlutterBinding.ensureInitialized();
+  var test = await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
 
+  FlavorManager.make(Flavor.PRODUCTION);
   runApp(const MyOnlineDoctorApp()); //Here we run the app.
 }
 
@@ -42,9 +46,12 @@ class MyOnlineDoctorApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigatorServiceContract.get().navigatorKey,
       theme: mainTheme(),
-      onGenerateRoute: (RouteSettings settings, ) =>
-          RoutesManager.getOnGenerateRoute(settings, arguments: settings.arguments),
-      home: _checkInternet(),
+      onGenerateRoute: (
+        RouteSettings settings,
+      ) =>
+          RoutesManager.getOnGenerateRoute(settings,
+              arguments: settings.arguments),
+      home: LoginPage(),
     );
   }
 

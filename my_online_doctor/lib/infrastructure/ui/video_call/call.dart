@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
-import './settings.dart';
+import 'package:my_online_doctor/infrastructure/ui/video_call/settings.dart';
 import 'package:http/http.dart' as http;
 
 class CallPage extends StatefulWidget {
@@ -24,6 +24,7 @@ class _CallPageState extends State<CallPage> {
   final _inforStrings = <String>[];
   bool muted = false;
   bool viewPanel = false;
+  bool cam = false; 
   late RtcEngine _engine;
 
 
@@ -41,21 +42,6 @@ class _CallPageState extends State<CallPage> {
     super.dispose();
   }
 
-   getRtcToken(String channel) async {
-    final url = 'https://agora-token-generator-online.herokuapp.com/rtc/'+channel+'/publisher/uid/0';
-
-    try {
-      //arreglar esto
-      final response = await http.get(Uri.parse(url));
-      final token = jsonDecode(response.body);
-      return token['rtcToken'];
-    }catch (e){
-      print('error');
-      print(e);
-      return '';
-    }
-  }
-
   Future<void> initialize() async {
     if (APP_ID.isEmpty) {
       setState(() {
@@ -69,6 +55,22 @@ class _CallPageState extends State<CallPage> {
       return;
     }
 
+    getRtcToken(String channel) async {
+
+    final url = 'https://agora-token-generator-online.herokuapp.com/rtc/'+channel+'/publisher/uid/0';
+
+    try {
+    //arreglar esto
+    final response = await http.get(Uri.parse(url));
+    final token = jsonDecode(response.body);
+    return token['rtcToken'];
+    }catch (e){
+    print('error');
+    print(e);
+    return '';
+    }
+    }
+
     _engine = await RtcEngine.create(APP_ID);
     await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
@@ -77,7 +79,7 @@ class _CallPageState extends State<CallPage> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(width: 1920, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-
+  
     final tkn = await getRtcToken(widget.channelName!);
     await _engine.joinChannel(tkn, widget.channelName!, null, 0);
   }
@@ -180,16 +182,19 @@ class _CallPageState extends State<CallPage> {
           ),
           RawMaterialButton(
               onPressed: () {
-                _engine.switchCamera();
+                  setState((){
+                  cam = !cam;
+                });
+                _engine.muteLocalVideoStream(cam); 
               },
-            child: const Icon(
-              Icons.switch_camera,
-              color: Colors.blueAccent,
+            child: Icon(
+              cam ? Icons.videocam_off: Icons.videocam,
+              color: cam ?Colors.white : Colors.blueAccent,
               size: 20.0,
             ),
             shape: const CircleBorder(),
             elevation: 2.0,
-            fillColor: Colors.white,
+            fillColor: cam ?Colors.blueAccent : Colors.white,
             padding: const EdgeInsets.all(12.0),
           )
         ],

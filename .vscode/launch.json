@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "my_online_doctor",
+            "cwd": "my_online_doctor",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "my_online_doctor (profile mode)",
+            "cwd": "my_online_doctor",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "my_online_doctor (release mode)",
+            "cwd": "my_online_doctor",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
