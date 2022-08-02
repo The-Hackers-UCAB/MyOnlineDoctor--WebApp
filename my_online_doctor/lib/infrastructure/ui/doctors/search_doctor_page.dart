@@ -5,8 +5,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:my_online_doctor/application/bloc/doctor/doctor_bloc.dart';
 import 'package:my_online_doctor/domain/models/doctor/doctor_request_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/text_constants.dart';
-import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
-import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
 
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/components/base_ui_component.dart';
