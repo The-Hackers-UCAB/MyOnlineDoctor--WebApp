@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
+import 'package:my_online_doctor/infrastructure/core/navigator_manager.dart';
 import '../../core/constants/repository_constants.dart';
 import '../../core/injection_manager.dart';
 import '../../core/repository_manager.dart';
@@ -12,7 +13,6 @@ import 'package:http/http.dart' as http;
 
 class CallPage extends StatefulWidget {
   static const routeName = '/call';
-
   final String? channelName;
   final ClientRole? role;
   final String? appointmentId;
@@ -28,6 +28,7 @@ class _CallPageState extends State<CallPage> {
   final _inforStrings = <String>[];
   bool muted = false;
   bool viewPanel = false;
+  bool cam = false;
   late RtcEngine _engine;
 
   @override
@@ -44,23 +45,6 @@ class _CallPageState extends State<CallPage> {
     super.dispose();
   }
 
-  getRtcToken(String channel) async {
-    final url = 'https://agora-token-generator-online.herokuapp.com/rtc/' +
-        channel +
-        '/publisher/uid/0';
-
-    try {
-      //arreglar esto
-      final response = await http.get(Uri.parse(url));
-      final token = jsonDecode(response.body);
-      return token['rtcToken'];
-    } catch (e) {
-      print('error');
-      print(e);
-      return '';
-    }
-  }
-
   Future<void> initialize() async {
     if (APP_ID.isEmpty) {
       setState(() {
@@ -72,6 +56,22 @@ class _CallPageState extends State<CallPage> {
         );
       });
       return;
+    }
+
+    getRtcToken(String channel) async {
+      final url =
+          'https://agora-token-generator-online.herokuapp.com/rtc/$channel/publisher/uid/0';
+
+      try {
+        //arreglar esto
+        final response = await http.get(Uri.parse(url));
+        final token = jsonDecode(response.body);
+        return token['rtcToken'];
+      } catch (e) {
+        print('error');
+        print(e);
+        return '';
+      }
     }
 
     _engine = await RtcEngine.create(APP_ID);
@@ -169,7 +169,11 @@ class _CallPageState extends State<CallPage> {
           RawMaterialButton(
             onPressed: () async {
               await completeAppointment();
-              Navigator.pop(context);
+              final NavigatorServiceContract _navigatorManager =
+                  NavigatorServiceContract.get();
+              _navigatorManager.navigateToWithReplacement("/bottom_menu");
+              // aqui mando a completar la historia medica
+              // Navigator.pop(context);
             },
             child: const Icon(
               Icons.call_end,
@@ -183,16 +187,19 @@ class _CallPageState extends State<CallPage> {
           ),
           RawMaterialButton(
             onPressed: () {
-              _engine.switchCamera();
+              setState(() {
+                cam = !cam;
+              });
+              _engine.muteLocalVideoStream(cam);
             },
-            child: const Icon(
-              Icons.switch_camera,
-              color: Colors.blueAccent,
+            child: Icon(
+              cam ? Icons.videocam_off : Icons.videocam,
+              color: cam ? Colors.white : Colors.blueAccent,
               size: 20.0,
             ),
             shape: const CircleBorder(),
             elevation: 2.0,
-            fillColor: Colors.white,
+            fillColor: cam ? Colors.blueAccent : Colors.white,
             padding: const EdgeInsets.all(12.0),
           )
         ],
