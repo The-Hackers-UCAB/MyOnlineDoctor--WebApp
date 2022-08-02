@@ -22,7 +22,12 @@ import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 class MedicalRecordPage extends StatelessWidget {
   static const routeName = '/medicalrecord';
 
-  MedicalRecordPage({Key? key}) : super(key: key);
+  final MedicalRecordDomainModel medicalrecord;
+
+  MedicalRecordPage({
+    Key? key,
+    required this.medicalrecord,
+  }) : super(key: key);
 
   //Controllers
 
