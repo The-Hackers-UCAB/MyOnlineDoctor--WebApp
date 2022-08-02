@@ -14,7 +14,8 @@ import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 import 'package:my_online_doctor/infrastructure/utils/device_util.dart';
 
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
+import 'dart:html';
 import 'firebase_options.dart';
 
 //This the main function of the app.
@@ -59,7 +60,7 @@ class MyOnlineDoctorApp extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data!) {
-            _requestCallPermisions();
+            _resquestCameraAndMic();
             return LoginPage();
             //TO DO: Add the home page.
             // return HomePage();
@@ -75,13 +76,7 @@ class MyOnlineDoctorApp extends StatelessWidget {
     );
   }
 
-  Future _requestCallPermisions() async {
-    await _handleCameraAndMic(Permission.camera);
-    await _handleCameraAndMic(Permission.microphone);
-  }
-
-  Future<void> _handleCameraAndMic(Permission permission) async {
-    final status = await permission.request();
-    print(status.toString());
+  Future _resquestCameraAndMic() async {
+    await window.navigator.getUserMedia(audio: true, video: true);
   }
 }
