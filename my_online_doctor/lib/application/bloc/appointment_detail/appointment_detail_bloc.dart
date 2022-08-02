@@ -41,7 +41,6 @@ class AppointmentDetailBloc
       CallPatientUseCaseContract.get();
   final ScheduleAppointmentsUseCaseContract _scheduleAppointmentUseCase =
       ScheduleAppointmentsUseCaseContract.get();
-  
 
   //Constructor
   //You have to declare the StateInitial as the first state
@@ -50,7 +49,8 @@ class AppointmentDetailBloc
         _fetchBasicAppointmentDataEventToState);
     on<AppointmentDetailEventCancelled>(_cancelledAppointmentEventToState);
     on<AppointmentDetailEventRejected>(_rejectedAppointmentEventToState);
-    on<ScheduleAppointmentDetailEventAccepted>(_scheduleAppointmentEventToState);
+    on<ScheduleAppointmentDetailEventAccepted>(
+        _scheduleAppointmentEventToState);
     on<AppointmentDetailEventNavigateToWith>(_navigateToWithEventToState);
     on<AppointmentDetailEventCalled>(_callPatientEventToState);
   }
@@ -80,6 +80,7 @@ class AppointmentDetailBloc
         builder: (BuildContext rootContext) => CallPage(
           channelName: response['channelName'],
           role: ClientRole.Broadcaster,
+          appointmentId: event.appointment.id,
         ),
       ),
     );
@@ -131,9 +132,7 @@ class AppointmentDetailBloc
     }
 
     _dispose();
-    _navigatorManager.navigateToWithReplacement(
-        "/bottom_menu"
-        );
+    _navigatorManager.navigateToWithReplacement("/bottom_menu");
 
     emit(AppointmentDetailStateHideLoading());
 
@@ -161,9 +160,7 @@ class AppointmentDetailBloc
               ));
     }
     _dispose();
-    _navigatorManager.navigateToWithReplacement(
-        "/bottom_menu"
-        );
+    _navigatorManager.navigateToWithReplacement("/bottom_menu");
 
     emit(AppointmentDetailStateHideLoading());
   }
@@ -174,7 +171,8 @@ class AppointmentDetailBloc
   ///If the user confirms, it calls the use case to accept the appointment.
   ///If the user cancels, it does nothing.
   ///It also shows a dialog to the user if the appointment is accepted.
-  void _scheduleAppointmentEventToState(ScheduleAppointmentDetailEventAccepted event,
+  void _scheduleAppointmentEventToState(
+      ScheduleAppointmentDetailEventAccepted event,
       Emitter<AppointmentDetailState> emit) async {
     emit(AppointmentDetailStateLoading());
 
@@ -190,10 +188,8 @@ class AppointmentDetailBloc
                 textQuestion: TextConstant.successAcceptAppointment.text,
               ));
     }
-        _dispose();
-    _navigatorManager.navigateToWithReplacement(
-        "/bottom_menu"
-        );
+    _dispose();
+    _navigatorManager.navigateToWithReplacement("/bottom_menu");
 
     emit(AppointmentDetailStateHideLoading());
   }
