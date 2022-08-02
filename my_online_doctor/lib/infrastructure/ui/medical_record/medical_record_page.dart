@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:my_online_doctor/application/bloc/medical_record/medical_record_bloc.dart';
+import 'package:my_online_doctor/domain/models/medicalRecord/medical_record_domain_model.dart';
 
 //Prokect imports:
-import 'package:my_online_doctor/application/bloc/register/register_bloc.dart';
-import 'package:my_online_doctor/domain/models/patient/sign_up_patient_domain_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/min_max_constants.dart';
 import 'package:my_online_doctor/infrastructure/core/context_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
@@ -18,8 +18,6 @@ import 'package:my_online_doctor/infrastructure/ui/components/text_field_compone
 import 'package:my_online_doctor/infrastructure/ui/components/text_form_field_component.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
-
-import '../../../domain/models/medicalRecord/medical_record_domain_model.dart';
 
 
 
@@ -50,8 +48,8 @@ class MedicalRecordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       lazy:  false,
-      create: (context) => RegisterBloc(),
-      child: BlocBuilder<RegisterBloc, RegisterState>(
+      create: (context) => MedicalRecordBloc(),
+      child: BlocBuilder<MedicalRecordBloc, MedicalRecordState>(
         builder: (context, state) {
           return BaseUIComponent(
             appBar: _renderAppBar(context),
@@ -70,12 +68,12 @@ class MedicalRecordPage extends StatelessWidget {
       backgroundColor: colorPrimary,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: () => context.read<RegisterBloc>().add(RegisterEventNavigateTo('/login'))
+        onPressed: () => context.read<MedicalRecordBloc>().add(MedicalRecordEventNavigateTo('/view_appointments'))
       ),
       // leading: renderLogoImageView(context),
       title: const Padding(
         padding: EdgeInsets.only(left: 20),
-        child: Text('Registro de Paciente'),
+        child: Text('Registro de Historia Medica'),
       )
     );
 
@@ -85,25 +83,25 @@ class MedicalRecordPage extends StatelessWidget {
     Container(width: double.infinity, height: MediaQuery.of(context).size.height * 0.05, color: colorSecondary);
 
   //Widget Body
-  Widget _body(BuildContext context, RegisterState state) {
+  Widget _body(BuildContext context, MedicalRecordState state) {
     
-    if(state is RegisterStateInitial) {
-      context.read<RegisterBloc>().add(RegisterEventFetchBasicData());
+    if(state is MedicalRecordStateInitial) {
+      context.read<MedicalRecordBloc>().add(MedicalRecordEventFetchBasicData());
     }
 
     return Stack(
       children: [
-        if(state is! RegisterStateInitial) _medicalRecordStreamBuilder(context),
-        if(state is RegisterStateInitial || state is RegisterStateLoading) const LoadingComponent(),
+        if(state is! MedicalRecordStateInitial) _medicalRecordStreamBuilder(context),
+        if(state is MedicalRecordStateInitial || state is MedicalRecordStateLoading) const LoadingComponent(),
         // if(state is RegisterStateSuccess) LoginPage(),
       ],
     );
   }
 
 
-  //StreamBuilder for the Register Page
+  //StreamBuilder for the Medical Record Page
   Widget _medicalRecordStreamBuilder(BuildContext builderContext) => StreamBuilder<bool>(
-    stream: builderContext.read<RegisterBloc>().streamRegister,
+    stream: builderContext.read<MedicalRecordBloc>().streamMedicalRecord,
     builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
 
       if(snapshot.hasData) {
@@ -231,7 +229,7 @@ class MedicalRecordPage extends StatelessWidget {
       spaces += ' ';
     }
 
-    _textAppointmentDateController.text = spaces + DateFormat('yyyy-MM-dd').format(context.read<RegisterBloc>().birthDate);
+    _textAppointmentDateController.text = spaces + DateFormat('yyyy-MM-dd').format(context.read<MedicalRecordBloc>().date);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -276,7 +274,7 @@ class MedicalRecordPage extends StatelessWidget {
               );
 
               // ignore: use_build_context_synchronously
-              if(newDate != null) context.read<RegisterBloc>().birthDate = newDate;
+              if(newDate != null) context.read<MedicalRecordBloc>().date = newDate;
               
             },
           ),
@@ -429,7 +427,7 @@ class MedicalRecordPage extends StatelessWidget {
         exams: _textExamController.text.trim(),
         recipe: _textRecipeController.text.trim(),
         planning: _textPlanningController.text.trim(),
-        date: DateFormat('yyyy-MM-dd').format(context.read<RegisterBloc>().birthDate),
+        date: DateFormat('yyyy-MM-dd').format(context.read<MedicalRecordBloc>().date),
         //background: 'Falta de sueño por desarrollo',
         //height: '1.85',
         //phoneNumber: '424123',
