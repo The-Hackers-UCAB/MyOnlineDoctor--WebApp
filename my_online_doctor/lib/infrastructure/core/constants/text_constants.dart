@@ -38,6 +38,8 @@ enum TextConstant {
   callPatient,
   scheduleAppointment,
   medicalRecordDate,
+  viewMedicalRecords,
+  medicalRecordTitle,
 }
 
 extension TextConstantExtension on TextConstant {
@@ -153,6 +155,12 @@ extension TextConstantExtension on TextConstant {
 
       case TextConstant.medicalRecordDate:
         return 'La fecha debe ser la de hoy';
+
+      case TextConstant.viewMedicalRecords:
+        return 'Visualizar Historia Médica';
+
+      case TextConstant.medicalRecordTitle:
+        return 'Registros Medicos del paciente';
     }
   }
 }

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
+import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
+import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/navigator_manager.dart';
+import 'package:my_online_doctor/infrastructure/core/repository_manager.dart';
 import 'package:my_online_doctor/infrastructure/ui/video_call/settings.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +16,9 @@ class CallPage extends StatefulWidget {
 
   final String? channelName;
   final ClientRole? role;
-  const CallPage({Key? key, this.channelName, this.role}) : super(key: key);
+  final String? appointmentId;
+  const CallPage({Key? key, this.channelName, this.role, this.appointmentId})
+      : super(key: key);
 
   @override
   State<CallPage> createState() => _CallPageState();
@@ -165,9 +170,10 @@ class _CallPageState extends State<CallPage> {
           ),
           RawMaterialButton(
             onPressed: () async {
+              await completeAppointment();
               final NavigatorServiceContract _navigatorManager =
                   NavigatorServiceContract.get();
-              _navigatorManager.navigateToWithReplacement("/medicalrecord");
+              _navigatorManager.navigateToWithReplacement("/bottom_menu");
               // aqui mando a completar la historia medica
               // Navigator.pop(context);
             },
@@ -201,6 +207,21 @@ class _CallPageState extends State<CallPage> {
         ],
       ),
     );
+  }
+
+  Future<void> completeAppointment() async {
+    try {
+      final response = await getIt<RepositoryManager>().request(
+          operation: RepositoryConstant.operationPost.key,
+          endpoint: RepositoryPathConstant.callComplete.path,
+          body: {'id': widget.appointmentId!}).catchError((onError) {
+        print(onError);
+      });
+
+      print(response);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Widget _panel() {

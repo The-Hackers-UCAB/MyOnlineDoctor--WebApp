@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 //Project imports:
 import 'package:my_online_doctor/application/bloc/appointment_detail/appointment_detail_bloc.dart';
+import 'package:my_online_doctor/application/bloc/medical_history/medical_history_bloc.dart';
 import 'package:my_online_doctor/domain/models/appointment/accept_appointment_model.dart';
 import 'package:my_online_doctor/domain/models/appointment/appointment_detail_model.dart';
 import 'package:my_online_doctor/domain/models/appointment/cancel_appointment_model.dart';
@@ -199,6 +200,17 @@ class AppointmentDetailPage extends StatelessWidget {
                   ),
                 ),
               ]),
+            heightSeparator(context, 0.01),
+            _medicalRecordsRenderButton(
+                context,
+                ButtonComponentStyle.primary,
+                TextConstant.viewMedicalRecords.text,
+                ScheduleAppointmentDetailEventAccepted(
+                    ScheduleAppointmentModel(
+                        id: appointment.id,
+                        date: appointment.date ?? DateTime.now(),
+                        duration: 1),
+                    context))
           ],
         ),
       );
@@ -369,5 +381,26 @@ class AppointmentDetailPage extends StatelessWidget {
             title: title,
             actionButton: () =>
                 context.read<AppointmentDetailBloc>().add(event),
+          ));
+
+  Widget _medicalRecordsRenderButton(
+          BuildContext context,
+          ButtonComponentStyle buttonComponentStyle,
+          String title,
+          AppointmentDetailEvent event) =>
+      Container(
+          margin:
+              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.065,
+          child: ButtonComponent(
+            style: buttonComponentStyle,
+            title: title,
+            actionButton: () => context.read<MedicalHistoryBloc>().add(
+                MedicalHistoryEventNavigateToWith(
+                    '/view_medical_records', context)),
+            //actionButton: () {},
+            // actionButton: () =>
+            //     context.read<AppointmentDetailBloc>().add(event),
           ));
 }
