@@ -1,11 +1,10 @@
 //Package imports
 import 'dart:convert';
 
-GetMedicalRecordModel GetMedicalRecordModelFromJson(
-        Map<String, dynamic> data) =>
-    GetMedicalRecordModel.fromJson(data);
+MedicalRecordModel getMedicalRecordModelFromJson(Map<String, dynamic> data) =>
+    MedicalRecordModel.fromJson(data);
 
-class GetMedicalRecordModel {
+class MedicalRecordModel {
   String id;
   DateTime? date;
   String description;
@@ -16,7 +15,7 @@ class GetMedicalRecordModel {
   Doctor doctor;
   Specialty specialty;
 
-  GetMedicalRecordModel({
+  MedicalRecordModel({
     required this.id,
     required this.date,
     required this.description,
@@ -28,8 +27,8 @@ class GetMedicalRecordModel {
     required this.recipe,
   });
 
-  factory GetMedicalRecordModel.fromJson(Map<String, dynamic> json) =>
-      GetMedicalRecordModel(
+  factory MedicalRecordModel.fromJson(Map<String, dynamic> json) =>
+      MedicalRecordModel(
         id: json['id'],
         date: json['date'] == null ? null : DateTime.parse(json['date']),
         description: json['description'] == null

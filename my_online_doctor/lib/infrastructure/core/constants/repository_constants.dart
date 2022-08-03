@@ -89,7 +89,7 @@ extension RepositoryPathConstantExtension on RepositoryPathConstant {
         return 'api/appointment/complete';
 
       case RepositoryPathConstant.getPatientMedicalRecord:
-        return 'api/patient/medical-records?pageIndex=0&pageSize=5';
+        return 'api/doctor/medical-records';
     }
   }
 }

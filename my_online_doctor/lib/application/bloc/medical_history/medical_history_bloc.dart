@@ -14,19 +14,19 @@ part 'medical_history_state.dart';
 class MedicalHistoryBloc
     extends Bloc<MedicalHistoryEvent, MedicalHistoryState> {
   //Here the StreamController can be a state or a DomainModel
-  final _medicalHistoryStreamController = StreamController<
-      List<String>>(); //StreamController<List<GetMedicalRecordModel>>();
+  final _medicalHistoryStreamController =
+      StreamController<List<MedicalRecordModel>>();
 
   //TODO: borrarlo
-  final listTest = ['hola'];
+  // final listTest = ['hola'];
 
   //Instances of use cases:
   final NavigatorServiceContract _navigatorManager =
       NavigatorServiceContract.get();
 
-  // final GetPatientMedicalRecordUseCaseContract
-  //     _getPatientMedicalHistoryUseCase =
-  //     GetPatientMedicalRecordUseCaseContract.get();
+  final GetPatientMedicalRecordUseCaseContract
+      _getPatientMedicalHistoryUseCase =
+      GetPatientMedicalRecordUseCaseContract.get();
 
   //Constructor
   //You have to declare the StateInitial as the first state
@@ -36,7 +36,7 @@ class MedicalHistoryBloc
   }
 
   //Getters
-  Stream<List<String>> get streamMedicalHistory =>
+  Stream<List<MedicalRecordModel>> get streamMedicalHistory =>
       _medicalHistoryStreamController.stream;
 
   //Methods:
@@ -47,7 +47,7 @@ class MedicalHistoryBloc
     MedicalHistoryEventNavigateToWith event,
     Emitter<MedicalHistoryState> emit,
   ) {
-    _navigatorManager.navigateTo(event.routeName);
+    _navigatorManager.pop();
     _dispose();
   }
 
@@ -58,16 +58,16 @@ class MedicalHistoryBloc
       Emitter<MedicalHistoryState> emit) async {
     emit(MedicalHistoryStateLoading());
 
-    final response = listTest; //await _getPatientMedicalHistoryUseCase.run();
+    final response = await _getPatientMedicalHistoryUseCase.run();
 
     if (response.isNotEmpty) {
-      // final medicalHistorysList =
-      //     response.map((e) => GetMedicalRecordModelFromJson(e)).toList();
+      final medicalHistoryList =
+          response.map((e) => getMedicalRecordModelFromJson(e)).toList();
 
-      // List<GetMedicalRecordModel> medicalHistory =
-      //     medicalHistorysList.cast<GetMedicalRecordModel>();
+      List<MedicalRecordModel> medicalHistory =
+          medicalHistoryList.cast<MedicalRecordModel>();
 
-      _medicalHistoryStreamController.sink.add(listTest);
+      _medicalHistoryStreamController.sink.add(medicalHistory);
     } else {
       _medicalHistoryStreamController.sink.add([]);
     }
