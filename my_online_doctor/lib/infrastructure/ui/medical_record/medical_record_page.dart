@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_online_doctor/application/bloc/medical_record/medical_record_bloc.dart';
+import 'package:my_online_doctor/application/bloc/register/register_bloc.dart';
 import 'package:my_online_doctor/domain/models/medicalRecord/medical_record_domain_model.dart';
 
 //Prokect imports:
@@ -22,12 +23,7 @@ import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 class MedicalRecordPage extends StatelessWidget {
   static const routeName = '/medicalrecord';
 
-  final MedicalRecordDomainModel medicalrecord;
-
-  MedicalRecordPage({
-    Key? key,
-    required this.medicalrecord,
-  }) : super(key: key);
+  MedicalRecordPage({Key? key}) : super(key: key);
 
   //Controllers
 
@@ -390,42 +386,40 @@ class MedicalRecordPage extends StatelessWidget {
       child: ButtonComponent(
         title: 'Registrar',
         style: ButtonComponentStyle.primary,
-        actionButton: () => _registerMedicalRecord(context),
+        actionButton: () => () {}, //_registerMedicalRecord(context),
       ));
 
-  void _registerMedicalRecord(BuildContext context) {
-    getIt<ContextManager>().context = context;
+//   void _registerMedicalRecord(BuildContext context) {
+//     getIt<ContextManager>().context = context;
 
-    var medicalRecordDomainModel = MedicalRecordDomainModel(
-      dto: DtoRecord(
-        description: _textDescriptionController.text.trim(),
-        diagnostic: _textDiagnosticController.text.trim(),
-        exams: _textExamController.text.trim(),
-        recipe: _textRecipeController.text.trim(),
-        planning: _textPlanningController.text.trim(),
-        date: DateFormat('yyyy-MM-dd')
-            .format(context.read<MedicalRecordBloc>().date),
-        //background: 'Falta de sueño por desarrollo',
-        //height: '1.85',
-        //phoneNumber: '424123',
-        // phoneNumber: context.read<RegisterBloc>().phoneSelected! + _textPhoneController.text,
-        // weight: '85',
-        // status: 'Activo',
-        // surgeries: '3 cirugías',
-        // gender: context.read<RegisterBloc>().genreSelected == 'Hombre' ? 'M' : 'F',
-      ),
-      // createUserDto: CreateUserDto(
-      //   email: _textDescriptionController.text.trim(),
-      //   password: _textPasswordController.text.trim(),
-      // )
-    );
+//     var medicalRecordDomainModel = MedicalRecordDomainModel(
+//       dto: DtoRecord(
+//         description: _textDescriptionController.text.trim(),
+//         diagnostic: _textDiagnosticController.text.trim(),
+//         exams: _textExamController.text.trim(),
+//         recipe: _textRecipeController.text.trim(),
+//         planning: _textPlanningController.text.trim(),
+//         date: DateFormat('yyyy-MM-dd')
+//             .format(context.read<MedicalRecordBloc>().date),
+//         //background: 'Falta de sueño por desarrollo',
+//         //height: '1.85',
+//         //phoneNumber: '424123',
+//         // phoneNumber: context.read<RegisterBloc>().phoneSelected! + _textPhoneController.text,
+//         // weight: '85',
+//         // status: 'Activo',
+//         // surgeries: '3 cirugías',
+//         // gender: context.read<RegisterBloc>().genreSelected == 'Hombre' ? 'M' : 'F',
+//       ),
+//       // createUserDto: CreateUserDto(
+//       //   email: _textDescriptionController.text.trim(),
+//       //   password: _textPasswordController.text.trim(),
+//       // )
+//     );
 
-    // getIt<ContextManager>().context = context;
+//     getIt<ContextManager>().context = context;
 
-    // context.read<RegisterBloc>().add(RegisterEventRegisterPatient(
-    //   medicalRecordDomainModel,
-    //   _textConfirmPasswordController.text.trim(),
-    //  _formKey.currentState?.validate() ?? false,
-    //  ));
-  }
+//     context
+//         .read<MedicalRecordBloc>()
+//         .add(MedicalRecordEventRegister(medicalRecordDomainModel));
+//   }
 }

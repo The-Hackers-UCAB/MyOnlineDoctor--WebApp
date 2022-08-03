@@ -70,9 +70,7 @@ class RoutesManager {
                 appointment: arguments! as RequestAppointmentModel));
 
       case MedicalRecordPage.routeName:
-        return MaterialPageRoute(
-            builder: (context) => MedicalRecordPage(
-                medicalrecord: arguments! as MedicalRecordDomainModel));
+        return MaterialPageRoute(builder: (context) => MedicalRecordPage());
       default:
         return MaterialPageRoute(builder: (context) => LoginPage());
     }
