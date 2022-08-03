@@ -202,15 +202,10 @@ class AppointmentDetailPage extends StatelessWidget {
               ]),
             heightSeparator(context, 0.01),
             _medicalRecordsRenderButton(
-                context,
-                ButtonComponentStyle.primary,
-                TextConstant.viewMedicalRecords.text,
-                ScheduleAppointmentDetailEventAccepted(
-                    ScheduleAppointmentModel(
-                        id: appointment.id,
-                        date: appointment.date ?? DateTime.now(),
-                        duration: 1),
-                    context))
+              context,
+              ButtonComponentStyle.primary,
+              TextConstant.viewMedicalRecords.text,
+            )
           ],
         ),
       );
@@ -383,11 +378,8 @@ class AppointmentDetailPage extends StatelessWidget {
                 context.read<AppointmentDetailBloc>().add(event),
           ));
 
-  Widget _medicalRecordsRenderButton(
-          BuildContext context,
-          ButtonComponentStyle buttonComponentStyle,
-          String title,
-          AppointmentDetailEvent event) =>
+  Widget _medicalRecordsRenderButton(BuildContext context,
+          ButtonComponentStyle buttonComponentStyle, String title) =>
       Container(
           margin:
               const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
