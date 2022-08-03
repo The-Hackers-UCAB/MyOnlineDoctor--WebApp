@@ -96,8 +96,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     }
 
     emit(DoctorStateHideLoading());
-
-    emit(DoctorStateHideLoading());
   }
 
   ///This method is called when the event is [DoctorEventChangedSearchFilter]

@@ -11,6 +11,7 @@ import 'package:my_online_doctor/infrastructure/ui/doctors/doctor_page.dart';
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/logout/logout_page.dart';
+import 'package:my_online_doctor/infrastructure/ui/patient/search_patient_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/patient_profile/patient_profile_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/register/register_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/video_call/call.dart';
@@ -31,6 +32,9 @@ class RoutesManager {
       case SearchDoctorPage.routeName:
         return MaterialPageRoute(builder: (context) => SearchDoctorPage());
 
+      case SearchPatientPage.routeName:
+        return MaterialPageRoute(builder: (context) => SearchPatientPage());
+
       case DoctorPage.routeName:
         return MaterialPageRoute(
             builder: (context) => DoctorPage(
@@ -50,12 +54,14 @@ class RoutesManager {
                     ),
                     Icon(Icons.event, size: 30),
                     Icon(Icons.person_search, size: 30),
+                    Icon(Icons.contacts, size: 30),
                     Icon(Icons.logout_sharp, size: 30),
                   ],
                   screens: [
                     PatientProfilePage(),
                     ViewAppointmentsPage(),
                     SearchDoctorPage(),
+                    SearchPatientPage(),
                     LogoutPage(),
                   ],
                   index: arguments != null ? arguments as int : 1,

@@ -35,9 +35,9 @@ enum TextConstant {
   successAcceptAppointment,
   successRejectAppointment,
   doctors,
+  patients,
   callPatient,
   scheduleAppointment,
-
 }
 
 extension TextConstantExtension on TextConstant {
@@ -99,7 +99,7 @@ extension TextConstantExtension on TextConstant {
 
       case TextConstant.signIn:
         return 'Iniciar sesión';
-      
+
       case TextConstant.signUp:
         return 'Registrarse';
 
@@ -130,7 +130,7 @@ extension TextConstantExtension on TextConstant {
       case TextConstant.acceptAppointment:
         return 'Aceptar cita';
 
-      case  TextConstant.rejectAppointment:
+      case TextConstant.rejectAppointment:
         return 'Rechazar cita';
 
       case TextConstant.logoutTitle:
@@ -150,8 +150,8 @@ extension TextConstantExtension on TextConstant {
 
       case TextConstant.doctors:
         return 'Doctores';
-
-
+      case TextConstant.patients:
+        return 'Pacientes';
     }
   }
 }

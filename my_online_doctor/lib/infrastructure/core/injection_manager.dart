@@ -19,6 +19,7 @@ import 'package:my_online_doctor/application/use_cases/getters/get_genres_list_u
 import 'package:my_online_doctor/application/use_cases/getters/get_phones_list_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/login_patient/login_patient.dart';
 import 'package:my_online_doctor/application/use_cases/logout_patient/logout_patient.dart';
+import 'package:my_online_doctor/application/use_cases/patients/get_patients_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/register_patient/register_patient_use_case.dart';
 import 'package:my_online_doctor/firebase_options.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
@@ -71,16 +72,6 @@ class InjectionManager {
 
     NavigatorServiceContract.inject();
 
-    //FIREBASE
-    //TODO: Revisar Firebase
-    // FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-    // FirebaseMessaging.instance.getToken().then(
-    //   (token) {
-    //     print("Token: $token");
-    //   },
-    // );
-    //USE CASES
-
     GetPhonesUseCaseContract.inject();
     GetGenreUseCaseContract.inject();
     RegisterPatientUseCaseContract.inject();
@@ -91,6 +82,7 @@ class InjectionManager {
     RejectAppointmentsUseCaseContract.inject();
     AcceptAppointmentsUseCaseContract.inject();
     GetDoctorsUseCaseContract.inject();
+    GetPatientsUseCaseContract.inject();
     CallPatientUseCaseContract.inject();
     ScheduleAppointmentsUseCaseContract.inject();
   }
