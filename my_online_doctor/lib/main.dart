@@ -48,31 +48,11 @@ class MyOnlineDoctorApp extends StatelessWidget {
       onGenerateRoute: (
         RouteSettings settings,
       ) =>
-          RoutesManager.getOnGenerateRoute(settings,
-              arguments: settings.arguments),
+          RoutesManager.getOnGenerateRoute(
+        settings,
+        arguments: settings.arguments,
+      ),
       home: LoginPage(),
-    );
-  }
-
-  Widget _checkInternet() {
-    return FutureBuilder(
-      future: DeviceUtil.checkInternetConnection(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data!) {
-            _resquestCameraAndMic();
-            return LoginPage();
-            //TO DO: Add the home page.
-            // return HomePage();
-          } else {
-            return const CircularProgressIndicator(color: Colors.blue);
-            //TO DO: Add the error page. (No Internet)
-            // return NoInternetPage();
-          }
-        } else {
-          return const LoadingComponent();
-        }
-      },
     );
   }
 

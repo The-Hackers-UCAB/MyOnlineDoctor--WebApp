@@ -82,8 +82,6 @@ class RepositoryManager {
           response = await dio.delete(endpoint);
         }
       }
-      print("Data");
-      print(response?.data);
       dio.close();
 
       var data = requestValueResponseModelFromJson(response?.data);

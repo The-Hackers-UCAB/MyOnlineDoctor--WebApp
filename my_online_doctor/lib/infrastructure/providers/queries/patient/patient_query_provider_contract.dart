@@ -1,3 +1,4 @@
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 import 'package:my_online_doctor/domain/models/patient/sign_in_patient_domain_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
 import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
@@ -8,6 +9,7 @@ abstract class PatientQueryProviderContract<T> {
 
   Future<void> loginPatient(T patient);
   Future<void> logoutPatient();
+  Future<void> getPatients();
 }
 
 enum PatientQueryProviderError {
@@ -38,6 +40,19 @@ class _PatientQueryProvider
         .request(
             operation: RepositoryConstant.operationGet.key,
             endpoint: RepositoryPathConstant.logout.path)
+        .catchError((onError) {
+      return null;
+    });
+
+    return response;
+  }
+
+  @override
+  Future<dynamic> getPatients() {
+    final response = getIt<RepositoryManager>()
+        .request(
+            operation: RepositoryConstant.operationGet.key,
+            endpoint: RepositoryPathConstant.getPatients.path)
         .catchError((onError) {
       return null;
     });

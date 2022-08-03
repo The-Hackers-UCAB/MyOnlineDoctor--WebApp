@@ -38,7 +38,8 @@ enum RepositoryPathConstant {
   getAppointmentsDoctor,
   callPatient,
   scheduleAppointment,
-  callComplete
+  callComplete,
+  getPatients
 }
 
 extension RepositoryPathConstantExtension on RepositoryPathConstant {
@@ -82,6 +83,8 @@ extension RepositoryPathConstantExtension on RepositoryPathConstant {
 
       case RepositoryPathConstant.getDoctors:
         return 'api/doctor/search?pageIndex=0&pageSize=20';
+      case RepositoryPathConstant.getPatients:
+        return 'api/doctor/patients';
     }
   }
 }
