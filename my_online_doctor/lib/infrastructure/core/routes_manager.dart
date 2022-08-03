@@ -10,6 +10,7 @@ import 'package:my_online_doctor/infrastructure/ui/doctors/search_doctor_page.da
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/logout/logout_page.dart';
+import 'package:my_online_doctor/infrastructure/ui/medical_history/view_medical_records_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/medical_record/medical_record_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/patient_profile/patient_profile_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/register/register_page.dart';
@@ -69,8 +70,10 @@ class RoutesManager {
             builder: (context) => AppointmentDetailPage(
                 appointment: arguments! as RequestAppointmentModel));
 
-      case MedicalRecordPage.routeName:
-        return MaterialPageRoute(builder: (context) => MedicalRecordPage());
+      case ViewMedicalRecordsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => ViewMedicalRecordsPage(),
+        );
       default:
         return MaterialPageRoute(builder: (context) => LoginPage());
     }

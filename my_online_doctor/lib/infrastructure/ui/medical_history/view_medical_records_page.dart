@@ -28,7 +28,7 @@ class ViewMedicalRecordsPage extends StatelessWidget {
         builder: (context, state) {
           return BaseUIComponent(
             appBar: _renderAppBar(context),
-            body: _body(context, state),
+            body: const Text('Hola'), //_body(context, state),
           );
         },
       ),
@@ -84,11 +84,11 @@ class ViewMedicalRecordsPage extends StatelessWidget {
 
   //StreamBuilder for the Login Page
   Widget _appointmentStreamBuilder(BuildContext builderContext) =>
-      StreamBuilder<List<GetMedicalRecordModel>>(
+      StreamBuilder<List<String>>(
           stream:
               builderContext.read<MedicalHistoryBloc>().streamMedicalHistory,
-          builder: (BuildContext context,
-              AsyncSnapshot<List<GetMedicalRecordModel>> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isNotEmpty) {
                 return _renderMainBody(context, snapshot.data!);
@@ -105,9 +105,7 @@ class ViewMedicalRecordsPage extends StatelessWidget {
             return const LoadingComponent();
           });
 
-  Widget _renderMainBody(
-          BuildContext context, List<GetMedicalRecordModel> data) =>
-      Padding(
+  Widget _renderMainBody(BuildContext context, List<String> data) => Padding(
         padding: const EdgeInsets.only(top: 0, bottom: 20),
         child: ListView.builder(
           itemCount: data.length,
@@ -117,8 +115,7 @@ class ViewMedicalRecordsPage extends StatelessWidget {
         ),
       );
 
-  Widget _renderAppointmentItem(
-      BuildContext context, GetMedicalRecordModel item) {
+  Widget _renderAppointmentItem(BuildContext context, String item) {
     return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -148,16 +145,19 @@ class ViewMedicalRecordsPage extends StatelessWidget {
                   leading: ClipOval(
                       child: Image.asset('assets/images/doctor_logo.png',
                           width: 40, height: 40, fit: BoxFit.cover)),
-                  title: Text("Registro medico Dr. " + item.doctor.firstName,
-                      style: const TextStyle(fontSize: 15)),
+                  title: Text(
+                    "Registro medico Dr. " + item,
+                    style: TextStyle(fontSize: 15),
+                  ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Descripcion del caso:",
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text(item.description,
-                          style: const TextStyle(fontSize: 13)),
+                      Text(
+                        "Descripcion del caso:",
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Text(item, style: const TextStyle(fontSize: 13)),
                     ],
                   ),
                   onTap: () {

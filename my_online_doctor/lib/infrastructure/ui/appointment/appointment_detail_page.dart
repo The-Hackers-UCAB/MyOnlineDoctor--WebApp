@@ -378,8 +378,11 @@ class AppointmentDetailPage extends StatelessWidget {
                 context.read<AppointmentDetailBloc>().add(event),
           ));
 
-  Widget _medicalRecordsRenderButton(BuildContext context,
-          ButtonComponentStyle buttonComponentStyle, String title) =>
+  Widget _medicalRecordsRenderButton(
+    BuildContext context,
+    ButtonComponentStyle buttonComponentStyle,
+    String title,
+  ) =>
       Container(
           margin:
               const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
@@ -388,9 +391,11 @@ class AppointmentDetailPage extends StatelessWidget {
           child: ButtonComponent(
             style: buttonComponentStyle,
             title: title,
-            actionButton: () => context.read<MedicalHistoryBloc>().add(
-                MedicalHistoryEventNavigateToWith(
-                    '/view_medical_records', context)),
+            actionButton: () => context.read<AppointmentDetailBloc>().add(
+                  AppointmentDetailEventNavigateToWith(
+                    '/view_medical_records',
+                  ),
+                ),
             //actionButton: () {},
             // actionButton: () =>
             //     context.read<AppointmentDetailBloc>().add(event),

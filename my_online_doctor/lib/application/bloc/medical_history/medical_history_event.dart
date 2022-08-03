@@ -9,5 +9,5 @@ class MedicalHistoryEventFetchBasicData extends MedicalHistoryEvent {}
 class MedicalHistoryEventNavigateToWith extends MedicalHistoryEvent {
   final String routeName;
   final Object? arguments;
-  MedicalHistoryEventNavigateToWith(this.routeName, this.arguments);
+  MedicalHistoryEventNavigateToWith({required this.routeName, this.arguments});
 }
