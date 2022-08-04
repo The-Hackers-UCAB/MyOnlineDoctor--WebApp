@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_online_doctor/domain/models/appointment/request_appointment_model.dart';
 import 'package:my_online_doctor/domain/models/doctor/doctor_request_model.dart';
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/appointment_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/view_appointments_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/bottom_menu_component.dart';
@@ -11,6 +12,7 @@ import 'package:my_online_doctor/infrastructure/ui/doctors/doctor_page.dart';
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/logout/logout_page.dart';
+import 'package:my_online_doctor/infrastructure/ui/patient/patient_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/patient/search_patient_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/patient_profile/patient_profile_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/register/register_page.dart';
@@ -39,6 +41,12 @@ class RoutesManager {
         return MaterialPageRoute(
             builder: (context) => DoctorPage(
                   doctor: arguments as DoctorRequestModel,
+                ));
+
+      case PatientDetailPage.routeName:
+        return MaterialPageRoute(
+            builder: (context) => PatientDetailPage(
+                  patient: arguments as PatientRequestModel,
                 ));
 
       case PatientProfilePage.routeName:
