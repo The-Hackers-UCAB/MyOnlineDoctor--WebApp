@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_online_doctor/domain/models/appointment/request_appointment_model.dart';
 import 'package:my_online_doctor/domain/models/doctor/doctor_request_model.dart';
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/appointment_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/view_appointments_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/bottom_menu_component.dart';
@@ -84,7 +85,9 @@ class RoutesManager {
 
       case ViewMedicalRecordsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => ViewMedicalRecordsPage(),
+          builder: (context) => ViewMedicalRecordsPage(
+            patient: arguments! as PatientRequestModel,
+          ),
         );
       default:
         return MaterialPageRoute(builder: (context) => LoginPage());

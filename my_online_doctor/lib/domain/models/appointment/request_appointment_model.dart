@@ -1,16 +1,18 @@
 //Package imports
 import 'dart:convert';
 
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
+
 // List<RequestAppointmentModel> requestAppointmentModelFromJson(String str) => List<RequestAppointmentModel>.from(json.decode(str).map((x) => RequestAppointmentModel.fromJson(x)));
 
-RequestAppointmentModel requestAppointmentModelFromJson(Map<String, dynamic> data) => RequestAppointmentModel.fromJson(data);
+RequestAppointmentModel requestAppointmentModelFromJson(
+        Map<String, dynamic> data) =>
+    RequestAppointmentModel.fromJson(data);
 
 // String requestAppointmentModelToJson(List<RequestAppointmentModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-
 ///RequestAppointmentModel: Model for get the list of Appointments
 
- 
 // class RequestAppointmentValue {
 
 //   List<RequestAppointmentModel> value;
@@ -27,8 +29,6 @@ RequestAppointmentModel requestAppointmentModelFromJson(Map<String, dynamic> dat
 //     "value": value,
 //   };
 
-
-
 // }
 
 class RequestAppointmentModel {
@@ -38,10 +38,9 @@ class RequestAppointmentModel {
   int? duration;
   String status;
   String type;
-  Patient patient;
+  PatientRequestModel patient;
   Doctor doctor;
   Specialty specialty;
-
 
   RequestAppointmentModel({
     required this.id,
@@ -53,38 +52,33 @@ class RequestAppointmentModel {
     required this.patient,
     required this.doctor,
     required this.specialty,
-
   });
 
-
-  factory RequestAppointmentModel.fromJson(Map<String, dynamic> json) => RequestAppointmentModel(
-    id: json['id'],
-    date: json['date'] == null ? null : DateTime.parse(json['date']),
-    description: json['description'],
-    duration: json['duration'],
-    status: json['status'],
-    type: json['type'],
-    patient: Patient.fromJson(json['patient']),
-    doctor: Doctor.fromJson(json['doctor']),
-    specialty: Specialty.fromJson(json['specialty']),
-  );
-
+  factory RequestAppointmentModel.fromJson(Map<String, dynamic> json) =>
+      RequestAppointmentModel(
+        id: json['id'],
+        date: json['date'] == null ? null : DateTime.parse(json['date']),
+        description: json['description'],
+        duration: json['duration'],
+        status: json['status'],
+        type: json['type'],
+        patient: PatientRequestModel.fromJson(json['patient']),
+        doctor: Doctor.fromJson(json['doctor']),
+        specialty: Specialty.fromJson(json['specialty']),
+      );
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'date' : date!.toIso8601String(),
-    'description' : description,
-    'duration' : duration,
-    'status' : status,
-    'type' : type,
-    'patient' : patient.toJson(),
-    'doctor' : doctor.toJson(),
-    'specialty' : specialty.toJson(),
-
-  };
-
+        'id': id,
+        'date': date!.toIso8601String(),
+        'description': description,
+        'duration': duration,
+        'status': status,
+        'type': type,
+        'patient': patient.toJson(),
+        'doctor': doctor.toJson(),
+        'specialty': specialty.toJson(),
+      };
 }
-
 
 class Patient {
   String id;
@@ -101,26 +95,22 @@ class Patient {
     required this.status,
   });
 
-
   factory Patient.fromJson(Map<String, dynamic> json) => Patient(
-    id: json['id'],
-    firstName: json['firstName'],
-    firstSurname: json['firstSurname'],
-    gender: json['gender'],
-    status: json['status'],
-  );
-
+        id: json['id'],
+        firstName: json['firstName'],
+        firstSurname: json['firstSurname'],
+        gender: json['gender'],
+        status: json['status'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'firstName': firstName,
-    'firstSurname': firstSurname,
-    'gender': gender,
-    'status': status,
-  };
-
+        'id': id,
+        'firstName': firstName,
+        'firstSurname': firstSurname,
+        'gender': gender,
+        'status': status,
+      };
 }
-
 
 class Doctor {
   String id;
@@ -128,7 +118,6 @@ class Doctor {
   String firstSurname;
   String gender;
   String status;
-
 
   Doctor({
     required this.id,
@@ -138,32 +127,24 @@ class Doctor {
     required this.status,
   });
 
-
   factory Doctor.fromJson(Map<String, dynamic> json) => Doctor(
-    id: json['id'],
-    firstName: json['firstName'],
-    firstSurname: json['firstSurname'],
-    gender: json['gender'],
-    status: json['status'],
-  );
-
+        id: json['id'],
+        firstName: json['firstName'],
+        firstSurname: json['firstSurname'],
+        gender: json['gender'],
+        status: json['status'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'firstName': firstName,
-    'firstSurname': firstSurname,
-    'gender': gender,
-    'status': status,
-  };
-
-
+        'id': id,
+        'firstName': firstName,
+        'firstSurname': firstSurname,
+        'gender': gender,
+        'status': status,
+      };
 }
 
-
-
-
-
-class Specialty{
+class Specialty {
   int id;
   String specialty;
 
@@ -172,17 +153,8 @@ class Specialty{
     required this.specialty,
   });
 
+  factory Specialty.fromJson(Map<String, dynamic> json) =>
+      Specialty(id: json['id'], specialty: json['specialty']);
 
-  factory Specialty.fromJson(Map<String, dynamic> json) => Specialty(
-    id: json['id'], 
-    specialty: json['specialty']
-  );
-
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'specialty' : specialty
-  };
-
-
+  Map<String, dynamic> toJson() => {'id': id, 'specialty': specialty};
 }

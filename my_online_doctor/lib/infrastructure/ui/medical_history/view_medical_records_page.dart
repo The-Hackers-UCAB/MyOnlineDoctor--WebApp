@@ -7,6 +7,7 @@ import 'package:my_online_doctor/application/bloc/medical_history/medical_histor
 import 'package:my_online_doctor/application/bloc/medical_record/medical_record_bloc.dart';
 import 'package:my_online_doctor/domain/models/medicalRecord/medical_record_domain_model.dart';
 import 'package:my_online_doctor/domain/models/medical_history_record/view_medical_history_model.dart';
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/min_max_constants.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/text_constants.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/base_ui_component.dart';
@@ -19,7 +20,9 @@ import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
 class ViewMedicalRecordsPage extends StatelessWidget {
   static const routeName = '/view_medical_records';
 
-  ViewMedicalRecordsPage({Key? key}) : super(key: key);
+  PatientRequestModel patient;
+
+  ViewMedicalRecordsPage({Key? key, required this.patient}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,8 @@ class ViewMedicalRecordsPage extends StatelessWidget {
   ///Widget AppBar
   PreferredSizeWidget _renderAppBar(BuildContext context) => AppBar(
         backgroundColor: colorPrimary,
-        title: Text(TextConstant.medicalRecordTitle.text),
+        title: Text(
+            "${TextConstant.medicalRecordTitle.text} ${patient.firstName} ${patient.firstSurname}"),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -53,9 +57,9 @@ class ViewMedicalRecordsPage extends StatelessWidget {
   //Widget Body
   Widget _body(BuildContext context, MedicalHistoryState state) {
     if (state is MedicalHistoryStateInitial) {
-      context
-          .read<MedicalHistoryBloc>()
-          .add(MedicalHistoryEventFetchBasicData());
+      context.read<MedicalHistoryBloc>().add(
+            MedicalHistoryEventFetchBasicData(patient), //<--
+          );
     }
 
     return Stack(
@@ -124,10 +128,11 @@ class ViewMedicalRecordsPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)),
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.4),

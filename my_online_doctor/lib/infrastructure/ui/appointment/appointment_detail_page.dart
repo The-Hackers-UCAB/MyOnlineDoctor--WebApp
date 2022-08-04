@@ -394,6 +394,7 @@ class AppointmentDetailPage extends StatelessWidget {
             actionButton: () => context.read<AppointmentDetailBloc>().add(
                   AppointmentDetailEventNavigateToWith(
                     '/view_medical_records',
+                    arguments: appointment.patient,
                   ),
                 ),
             //actionButton: () {},

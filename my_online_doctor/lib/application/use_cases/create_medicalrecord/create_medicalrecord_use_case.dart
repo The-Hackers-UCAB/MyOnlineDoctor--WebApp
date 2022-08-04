@@ -1,6 +1,7 @@
 //Project import:
 import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
-import 'package:my_online_doctor/infrastructure/providers/queries/MedicalRecord/MedicalRecord_query_provider_contract.dart';
+
+import 'package:my_online_doctor/infrastructure/providers/queries/medical_record/patient_medical_history_query_provider_contract.dart';
 
 enum MedicalRecordUseCaseError { noMedicalRecordsFound }
 
@@ -12,8 +13,8 @@ abstract class GetMedicalRecordsUseCaseContract {
       getIt<GetMedicalRecordsUseCaseContract>();
 
   /// Providers
-  MedicalRecordQueryProviderContract provider =
-      MedicalRecordQueryProviderContract.inject();
+  PatientMedicalHistoryQueryProviderContract provider =
+      PatientMedicalHistoryQueryProviderContract.inject();
 
   /// Methods
   Future<dynamic> run();
@@ -22,15 +23,15 @@ abstract class GetMedicalRecordsUseCaseContract {
 class _GetMedicalRecordsUseCase extends GetMedicalRecordsUseCaseContract {
   @override
   Future<dynamic> run() async {
-    return provider.getMedicalRecords();
+    return null;
   }
 }
 
-extension _ProviderMapper on MedicalRecordQueryProviderError {
-  MedicalRecordUseCaseError toUseCaseError() {
-    switch (this) {
-      default:
-        return MedicalRecordUseCaseError.noMedicalRecordsFound;
-    }
-  }
-}
+// extension _ProviderMapper on MedicalRecordQueryProviderError {
+//   MedicalRecordUseCaseError toUseCaseError() {
+//     switch (this) {
+//       default:
+//         return MedicalRecordUseCaseError.noMedicalRecordsFound;
+//     }
+//   }
+// }
