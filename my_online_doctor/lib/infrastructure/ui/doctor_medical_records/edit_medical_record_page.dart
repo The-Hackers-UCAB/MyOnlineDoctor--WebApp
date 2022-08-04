@@ -72,9 +72,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
                   description = value;
                   return null;
                 },
@@ -84,9 +81,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
                   diagnostico = value;
                   return null;
                 },
@@ -96,9 +90,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
                   examenes = value;
                   return null;
                 },
@@ -108,9 +99,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
                   recipe = value;
                   return null;
                 },
@@ -120,9 +108,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
                   plan = value;
                   return null;
                 },
@@ -137,11 +122,21 @@ class MyCustomFormState extends State<MyCustomForm> {
                           MedicalRecordCommandProviderContract.inject();
 
                       try {
-                        provider.editDescription(description!, widget.id);
-                        provider.editDiagnostic(diagnostico!, widget.id);
-                        provider.editExams(examenes!, widget.id);
-                        provider.editPlanning(plan!, widget.id);
-                        provider.editRecipe(recipe!, widget.id);
+                        description != null
+                            ? provider.editDescription(description!, widget.id)
+                            : null;
+                        diagnostico != null
+                            ? provider.editDiagnostic(diagnostico!, widget.id)
+                            : null;
+                        examenes != null
+                            ? provider.editExams(examenes!, widget.id)
+                            : null;
+                        plan != null
+                            ? provider.editPlanning(plan!, widget.id)
+                            : null;
+                        recipe != null
+                            ? provider.editRecipe(recipe!, widget.id)
+                            : null;
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text(
