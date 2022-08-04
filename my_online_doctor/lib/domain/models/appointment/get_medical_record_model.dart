@@ -37,7 +37,7 @@ class GetMedicalRecordModel {
         diagnostic: json['diagnostic'] == null
             ? "Por Completar..."
             : json['diagnostic'],
-        exam: json['exam'] == null ? "Por Completar..." : json['exam'],
+        exam: json['exams'] == null ? "Por Completar..." : json['exams'],
         recipe: json['recipe'] == null ? "Por Completar..." : json['recipe'],
         planning:
             json['planning'] == null ? "Por Completar..." : json['planning'],

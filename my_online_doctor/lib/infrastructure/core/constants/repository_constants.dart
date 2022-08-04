@@ -41,6 +41,11 @@ enum RepositoryPathConstant {
   callComplete,
   getPatients,
   getMedicalRecords,
+  editDescription,
+  editDiagnostic,
+  editExams,
+  editRecipe,
+  editPlanning
 }
 
 extension RepositoryPathConstantExtension on RepositoryPathConstant {
@@ -89,6 +94,18 @@ extension RepositoryPathConstantExtension on RepositoryPathConstant {
 
       case RepositoryPathConstant.getMedicalRecords:
         return 'api/doctor/medical-records';
+
+      case RepositoryPathConstant.editDescription:
+        return 'api/medical-record/modify-description';
+
+      case RepositoryPathConstant.editDiagnostic:
+        return 'api/medical-record/modify-diagnostic';
+      case RepositoryPathConstant.editExams:
+        return 'api/medical-record/modify-exams';
+      case RepositoryPathConstant.editRecipe:
+        return 'api/medical-record/modify-recipe';
+      case RepositoryPathConstant.editPlanning:
+        return 'api/medical-record/modify-planning';
     }
   }
 }

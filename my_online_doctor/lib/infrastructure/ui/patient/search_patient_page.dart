@@ -182,15 +182,15 @@ class SearchPatientPage extends StatelessWidget {
                           width: 40, height: 40, fit: BoxFit.cover)),
                   title: item.gender == 'M'
                       ? Text(
-                          'Sr. ${item.firstName} ${item.firstSurname}',
+                          'Paciente: Sr. ${item.firstName} ${item.firstSurname}',
                           style: const TextStyle(fontSize: 18),
                         )
                       : Text(
-                          'Sra. ${item.firstName} ${item.firstSurname}',
+                          'Paciente: Sra. ${item.firstName} ${item.firstSurname}',
                           style: const TextStyle(fontSize: 18),
                         ),
                   // subtitle:Text(item.specialties[0].specialty),
-                  subtitle: Text(item.phoneNumber),
+                  subtitle: Text("Antecedentes: ${item.background}"),
                   trailing: null,
                   onTap: () {
                     context
