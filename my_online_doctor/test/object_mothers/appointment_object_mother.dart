@@ -2,6 +2,8 @@ import 'package:my_online_doctor/domain/models/appointment/appointment_detail_mo
 import 'package:my_online_doctor/domain/models/appointment/request_appointment_model.dart';
 import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 
+import 'patient_object_mother.dart';
+
 class AppointmentExamples {
   static RequestAppointmentModel scheduledAppointment() {
     return RequestAppointmentModel(
@@ -26,6 +28,24 @@ class AppointmentExamples {
             surgeries: "none",
             middleName: "none",
             secondSurname: "none"),
+        doctor: Doctor(
+            id: "1",
+            firstName: "Doctor",
+            firstSurname: "Doctor",
+            gender: "MALE",
+            status: "ACTIVO"),
+        specialty: Specialty(id: 1, specialty: "CARDIOLOGY"));
+  }
+
+  static RequestAppointmentModel rejectedAppointment() {
+    return RequestAppointmentModel(
+        id: '1',
+        date: DateTime.now(),
+        description: 'Descripcion',
+        duration: 1,
+        status: "RECHAZADA",
+        type: "VIRTUAL",
+        patient: PatientExamples.validPatient(),
         doctor: Doctor(
             id: "1",
             firstName: "Doctor",
