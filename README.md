@@ -54,6 +54,12 @@ $ f5
 |Historia medica|https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/11d3df6aa35cdfb347b498a4cc3872e463d77469|
 |Lista de pacientes del doctor|https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/42a9104460aa32574e3228adab3a6d525f74b399|
 
+### Rabindra Harichand
+
+|Actividades|Pull Request|
+|:----|:----|
+|Detalles de los pacientes del doctor|https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/3d7110106fdccf3fc22e7022dbc6fbd1651b8695|
+
 
 
 ## Librerías y códigos externos usados:
