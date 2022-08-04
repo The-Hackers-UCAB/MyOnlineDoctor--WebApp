@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_online_doctor/application/bloc/medical_record/medical_record_bloc.dart';
 import 'package:my_online_doctor/application/bloc/register/register_bloc.dart';
+import 'package:my_online_doctor/domain/models/appointment/get_medical_record_model.dart';
 import 'package:my_online_doctor/domain/models/medicalRecord/medical_record_domain_model.dart';
 
 //Prokect imports:
@@ -64,9 +65,9 @@ class MedicalRecordPage extends StatelessWidget {
       backgroundColor: colorPrimary,
       leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context
-              .read<MedicalRecordBloc>()
-              .add(MedicalRecordEventNavigateTo('/view_appointments'))),
+          onPressed: () => context.read<MedicalRecordBloc>().add(
+              MedicalRecordEventNavigateToWith(
+                  routeName: '/view_appointments'))),
       // leading: renderLogoImageView(context),
       title: const Padding(
         padding: EdgeInsets.only(left: 20),
@@ -75,9 +76,10 @@ class MedicalRecordPage extends StatelessWidget {
 
   //Widget Bottom Navigation Bar
   Widget _renderBottomNavigationBar(BuildContext context) => Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.05,
-      color: colorSecondary);
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.05,
+        color: colorSecondary,
+      );
 
   //Widget Body
   Widget _body(BuildContext context, MedicalRecordState state) {
@@ -99,9 +101,10 @@ class MedicalRecordPage extends StatelessWidget {
 
   //StreamBuilder for the Medical Record Page
   Widget _medicalRecordStreamBuilder(BuildContext builderContext) =>
-      StreamBuilder<bool>(
+      StreamBuilder<List<GetMedicalRecordModel>>(
           stream: builderContext.read<MedicalRecordBloc>().streamMedicalRecord,
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<List<GetMedicalRecordModel>> snapshot) {
             if (snapshot.hasData) {
               return _medicalRecordRenderView(context);
             }
@@ -213,8 +216,8 @@ class MedicalRecordPage extends StatelessWidget {
       spaces += ' ';
     }
 
-    _textAppointmentDateController.text = spaces +
-        DateFormat('yyyy-MM-dd').format(context.read<MedicalRecordBloc>().date);
+    // _textAppointmentDateController.text = spaces +
+    //     DateFormat('yyyy-MM-dd').format(context.read<MedicalRecordBloc>().date);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -259,8 +262,8 @@ class MedicalRecordPage extends StatelessWidget {
               );
 
               // ignore: use_build_context_synchronously
-              if (newDate != null)
-                context.read<MedicalRecordBloc>().date = newDate;
+              // if (newDate != null)
+              //   // context.read<MedicalRecordBloc>().date = newDate;
             },
           ),
         ),

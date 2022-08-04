@@ -1,19 +1,13 @@
+//Project imports:
 part of 'medical_record_bloc.dart';
 
+///MedicalRecordEvent: Here we define the events of the MedicalRecordBloc.
 abstract class MedicalRecordEvent {}
 
 class MedicalRecordEventFetchBasicData extends MedicalRecordEvent {}
 
-class MedicalRecordEventNavigateTo extends MedicalRecordEvent {
+class MedicalRecordEventNavigateToWith extends MedicalRecordEvent {
   final String routeName;
-
-  MedicalRecordEventNavigateTo(this.routeName);
-}
-
-class MedicalRecordEventRegister extends MedicalRecordEvent {
-  final MedicalRecordDomainModel medicalRecordDomainModel;
-
-  MedicalRecordEventRegister(
-    this.medicalRecordDomainModel,
-  );
+  final Object? arguments;
+  MedicalRecordEventNavigateToWith({required this.routeName, this.arguments});
 }
