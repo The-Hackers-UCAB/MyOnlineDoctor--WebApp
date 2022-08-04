@@ -1,5 +1,5 @@
-# MyOnlineDoctor-MobileApp
-My Online Doctor Mobile Application
+# MyOnlineDoctor-WebApp
+My Online Doctor Web Application
 
 <p align="center">
   <img src="https://imgur.com/7iUabBi.png" width="320" alt="My Online Doctor" />
@@ -14,6 +14,7 @@ _My Online Doctor_ it's a telemedicine app where patients can subscribe and sche
 _Projects members_:
 - [Santiago Figueroa](https://github.com/santiagofv36) 
 - [Froilán Roa](https://github.com/froilanroac)
+- [Arturo Lacuona](https://github.com/ArtuKILL)
 
 ## Installation
 ```bash
