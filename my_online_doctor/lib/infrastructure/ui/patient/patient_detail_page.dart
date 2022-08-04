@@ -47,9 +47,7 @@ class PatientDetailPage extends StatelessWidget {
       backgroundColor: colorPrimary,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: () => context
-            .read<PatientDetailBloc>()
-            .add(PatientDetailEventNavigateToWith('/bottom_menu')),
+        onPressed: () => Navigator.of(context).pop(),
       ));
 
   //Widget Bottom Navigation Bar

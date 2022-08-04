@@ -201,11 +201,6 @@ class AppointmentDetailPage extends StatelessWidget {
                 ),
               ]),
             heightSeparator(context, 0.01),
-            _medicalRecordsRenderButton(
-              context,
-              ButtonComponentStyle.primary,
-              TextConstant.viewMedicalRecords.text,
-            )
           ],
         ),
       );
@@ -376,29 +371,5 @@ class AppointmentDetailPage extends StatelessWidget {
             title: title,
             actionButton: () =>
                 context.read<AppointmentDetailBloc>().add(event),
-          ));
-
-  Widget _medicalRecordsRenderButton(
-    BuildContext context,
-    ButtonComponentStyle buttonComponentStyle,
-    String title,
-  ) =>
-      Container(
-          margin:
-              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.065,
-          child: ButtonComponent(
-            style: buttonComponentStyle,
-            title: title,
-            actionButton: () => context.read<AppointmentDetailBloc>().add(
-                  AppointmentDetailEventNavigateToWith(
-                    '/view_medical_records',
-                    arguments: appointment.patient,
-                  ),
-                ),
-            //actionButton: () {},
-            // actionButton: () =>
-            //     context.read<AppointmentDetailBloc>().add(event),
           ));
 }
