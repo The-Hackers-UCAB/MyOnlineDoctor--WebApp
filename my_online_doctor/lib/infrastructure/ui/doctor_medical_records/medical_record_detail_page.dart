@@ -8,6 +8,7 @@ import 'package:my_online_doctor/infrastructure/core/constants/min_max_constants
 import 'package:my_online_doctor/infrastructure/core/constants/text_constants.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/base_ui_component.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/button_component.dart';
+import 'package:my_online_doctor/infrastructure/ui/doctor_medical_records/edit_medical_record_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 
@@ -64,7 +65,7 @@ class MedicalRecord extends StatelessWidget {
         child: Column(
           children: [
             Text(
-                'Doctor encargado: ${record.doctor.firstName} ${record.doctor.firstSurname}',
+                'Paciente: ${record.patient.firstName} ${record.patient.firstSurname}',
                 style: mainTheme().textTheme.headline1),
             const SizedBox(height: 3),
             Text("Especialidad: ${record.specialty.specialty}",
@@ -96,6 +97,14 @@ class MedicalRecord extends StatelessWidget {
                   style: mainTheme().textTheme.headline3,
                 ),
                 const SizedBox(height: 10),
+                const Text("Plan: ",
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                Text(
+                  record.planning,
+                  style: mainTheme().textTheme.headline3,
+                ),
+                const SizedBox(height: 10),
                 const Text("Recipe: ",
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
@@ -104,20 +113,29 @@ class MedicalRecord extends StatelessWidget {
                   style: mainTheme().textTheme.headline3,
                 ),
                 const SizedBox(height: 20),
-                _requestAppointmentRenderButton(context)
+                _requestAppointmentRenderButton(context, record)
               ],
             )
           ],
         ),
       );
 
-  Widget _requestAppointmentRenderButton(BuildContext context) => Container(
-      margin: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 25),
-      width: MediaQuery.of(context).size.height * 0.3,
-      height: MediaQuery.of(context).size.height * 0.065,
-      child: ButtonComponent(
-          title: "Editar Registro",
-          actionButton: () {
-            print("hola");
-          }));
+  Widget _requestAppointmentRenderButton(
+          BuildContext context, GetMedicalRecordModel record) =>
+      Container(
+          margin:
+              const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 25),
+          width: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.065,
+          child: ButtonComponent(
+              title: "Editar Registro",
+              actionButton: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext rootContext) =>
+                        EditRecordPage(id: record.id),
+                  ),
+                );
+              }));
 }

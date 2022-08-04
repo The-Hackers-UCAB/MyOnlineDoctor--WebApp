@@ -7,6 +7,7 @@ import 'package:my_online_doctor/domain/models/patient/patient_request_model.dar
 import 'package:my_online_doctor/infrastructure/ui/appointment/appointment_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/view_appointments_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/bottom_menu_component.dart';
+import 'package:my_online_doctor/infrastructure/ui/doctor_medical_records/edit_medical_record_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/doctor_medical_records/medical_record_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/doctor_medical_records/view_medical_records_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/doctors/search_doctor_page.dart';
@@ -94,6 +95,9 @@ class RoutesManager {
 
       case ViewMedicalRecordsPage.routeName:
         return MaterialPageRoute(builder: (context) => ViewAppointmentsPage());
+      case EditRecordPage.routeName:
+        return MaterialPageRoute(
+            builder: (context) => EditRecordPage(id: arguments! as String));
 
       case MedicalRecord.routeName:
         return MaterialPageRoute(
