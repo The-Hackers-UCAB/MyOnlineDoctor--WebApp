@@ -8,8 +8,7 @@ import '../../core/constants/text_constants.dart';
 import '../components/dialog_component.dart';
 import '../components/loading_component.dart';
 
-class PatientProfilePage extends StatelessWidget{
-
+class PatientProfilePage extends StatelessWidget {
   static const routeName = '/patient_profile';
 
   @override
@@ -29,25 +28,27 @@ class PatientProfilePage extends StatelessWidget{
   }
 
   ///Widget AppBar
-  PreferredSizeWidget _renderAppBar(BuildContext context) =>
-      AppBar(backgroundColor: colorPrimary, title: Text(TextConstant.profileTitle.text), centerTitle: true,);
+  PreferredSizeWidget _renderAppBar(BuildContext context) => AppBar(
+        backgroundColor: colorPrimary,
+        title: Text(TextConstant.profileTitle.text),
+        centerTitle: true,
+      );
 
   //Widget Body
   Widget _body(BuildContext context, ProfileState state) {
     if (state is ProfileStateInitial) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
-      var dialogResponse = await _showDialog(context);
-      context.read<ProfileBloc>().add(ProfileEventNavigateToWith('/bottom_menu'));
-
-    });
-
-     
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          var dialogResponse = await _showDialog(context);
+          context
+              .read<ProfileBloc>()
+              .add(ProfileEventNavigateToWith('/bottom_menu'));
+        },
+      );
     }
 
     return const LoadingComponent();
   }
-
-
 
   dynamic _showDialog(BuildContext context) {
     return showDialog(
