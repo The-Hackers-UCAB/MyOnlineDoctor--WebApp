@@ -1,6 +1,6 @@
 part of 'medical_record_bloc.dart';
 
-abstract class MedicalRecordState{}
+abstract class MedicalRecordState {}
 
 class MedicalRecordStateInitial extends MedicalRecordState {}
 
