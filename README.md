@@ -15,6 +15,7 @@ _Projects members_:
 - [Santiago Figueroa](https://github.com/santiagofv36) 
 - [Froilán Roa](https://github.com/froilanroac)
 - [Arturo Lacuona](https://github.com/ArtuKILL)
+- [Rabindra Harichand](https://github.com/RabindraHarichand)
 
 ## Installation
 ```bash
