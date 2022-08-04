@@ -46,6 +46,13 @@ $ f5
 | Caso de uso cita completada | https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/fba05e4fb90be0bd885fad99ac5e58a37ea1ccdd |
 | Caso de uso donde consultar otros doctores | https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/d03b3058f7d27140f3e35656c0a50ba76deec1fb |
 
+### Arturo Lecuona
+
+|Actividades|Pull Request|
+|:----|:----|
+|Historia medica|https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/11d3df6aa35cdfb347b498a4cc3872e463d77469|
+|Lista de pacientes del doctor|https://github.com/The-Hackers-UCAB/MyOnlineDoctor--WebApp/commit/42a9104460aa32574e3228adab3a6d525f74b399|
+
 
 
 ## Librerías y códigos externos usados:
