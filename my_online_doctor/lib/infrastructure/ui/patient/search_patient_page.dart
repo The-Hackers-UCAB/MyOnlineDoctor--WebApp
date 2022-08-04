@@ -190,7 +190,7 @@ class SearchPatientPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 18),
                         ),
                   // subtitle:Text(item.specialties[0].specialty),
-                  subtitle: Text("Background: ${item.background}"),
+                  subtitle: Text("Antecedentes: ${item.background}"),
                   trailing: null,
                   onTap: () {
                     context
