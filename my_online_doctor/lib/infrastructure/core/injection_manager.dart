@@ -19,6 +19,7 @@ import 'package:my_online_doctor/application/use_cases/getters/get_genres_list_u
 import 'package:my_online_doctor/application/use_cases/getters/get_phones_list_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/login_patient/login_patient.dart';
 import 'package:my_online_doctor/application/use_cases/logout_patient/logout_patient.dart';
+import 'package:my_online_doctor/application/use_cases/medical_history/get_patient_medical_history_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/medical_record/get_doctor_medical_record_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/patients/get_patients_use_case.dart';
 import 'package:my_online_doctor/application/use_cases/register_patient/register_patient_use_case.dart';
@@ -87,6 +88,7 @@ class InjectionManager {
     CallPatientUseCaseContract.inject();
     ScheduleAppointmentsUseCaseContract.inject();
     GetPatientMedicalRecordUseCaseContract.inject();
+    GetPatientMedicalHistoryUseCaseContract.inject();
   }
 
   static void setupInjectionsTesting() async {
@@ -107,5 +109,6 @@ class InjectionManager {
     GetPatientsUseCaseContract.inject();
     CallPatientUseCaseContract.inject();
     ScheduleAppointmentsUseCaseContract.inject();
+    GetPatientMedicalHistoryUseCaseContract.inject();
   }
 }

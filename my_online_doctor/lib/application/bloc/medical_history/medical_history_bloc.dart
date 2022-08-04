@@ -1,7 +1,7 @@
 //Package imports:
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_online_doctor/application/use_cases/medical_history/get_patient_medical_record_use_case.dart';
+import 'package:my_online_doctor/application/use_cases/medical_history/get_patient_medical_history_use_case.dart';
 //import 'package:my_online_doctor/application/use_cases/medical_History/get_patient_medical_History_use_case.dart';
 import 'package:my_online_doctor/domain/models/medical_history_record/view_medical_history_model.dart';
 import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
@@ -22,9 +22,9 @@ class MedicalHistoryBloc
   final NavigatorServiceContract _navigatorManager =
       NavigatorServiceContract.get();
 
-  final GetPatientMedicalRecordUseCaseContract
+  final GetPatientMedicalHistoryUseCaseContract
       _getPatientMedicalHistoryUseCase =
-      GetPatientMedicalRecordUseCaseContract.get();
+      GetPatientMedicalHistoryUseCaseContract.get();
 
   //Constructor
   //You have to declare the StateInitial as the first state

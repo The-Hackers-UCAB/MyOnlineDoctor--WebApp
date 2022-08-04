@@ -2,15 +2,15 @@
 import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
 import 'package:my_online_doctor/infrastructure/providers/queries/medical_record/patient_medical_history_query_provider_contract.dart';
 
-enum GetPatientMedicalRecordUseCaseError { noPatientFound }
+enum GetPatientMedicalHistoryUseCaseError { noPatientFound }
 
-abstract class GetPatientMedicalRecordUseCaseContract {
+abstract class GetPatientMedicalHistoryUseCaseContract {
   static inject() =>
-      getIt.registerSingleton<GetPatientMedicalRecordUseCaseContract>(
+      getIt.registerSingleton<GetPatientMedicalHistoryUseCaseContract>(
           _GetPatientMedicalRecordUseCase());
 
-  static GetPatientMedicalRecordUseCaseContract get() =>
-      getIt<GetPatientMedicalRecordUseCaseContract>();
+  static GetPatientMedicalHistoryUseCaseContract get() =>
+      getIt<GetPatientMedicalHistoryUseCaseContract>();
 
   /// Providers
   PatientMedicalHistoryQueryProviderContract provider =
@@ -21,7 +21,7 @@ abstract class GetPatientMedicalRecordUseCaseContract {
 }
 
 class _GetPatientMedicalRecordUseCase
-    extends GetPatientMedicalRecordUseCaseContract {
+    extends GetPatientMedicalHistoryUseCaseContract {
   @override
   Future<dynamic> run(String patientId) async {
     print('From UseCase $patientId');
