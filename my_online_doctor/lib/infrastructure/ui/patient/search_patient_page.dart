@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:my_online_doctor/application/bloc/doctor/doctor_bloc.dart';
+import 'package:my_online_doctor/application/bloc/patient_list/patient_list_bloc.dart';
 import 'package:my_online_doctor/domain/models/doctor/doctor_request_model.dart';
+import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/text_constants.dart';
 
 //Project imports:
@@ -13,21 +15,21 @@ import 'package:my_online_doctor/infrastructure/ui/components/search_field_compo
 import 'package:my_online_doctor/infrastructure/ui/components/show_error_component.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
 
-class SearchDoctorPage extends StatelessWidget {
-  static const routeName = '/search_doctor';
+class SearchPatientPage extends StatelessWidget {
+  static const routeName = '/search_patient';
 
   //Controllers
-  final TextEditingController _searchDoctorController =
+  final TextEditingController _searchPatientController =
       TextEditingController(text: '');
 
-  SearchDoctorPage({Key? key}) : super(key: key);
+  SearchPatientPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       lazy: false,
-      create: (context) => DoctorBloc(),
-      child: BlocBuilder<DoctorBloc, DoctorState>(
+      create: (context) => PatientListBloc()..add(FetchBasicData()),
+      child: BlocBuilder<PatientListBloc, PatientListState>(
         builder: (context, state) {
           return BaseUIComponent(
             appBar: _renderAppBar(context),
@@ -53,28 +55,20 @@ class SearchDoctorPage extends StatelessWidget {
         SpeedDialChild(
             child: const Icon(Icons.person, color: Colors.white),
             backgroundColor: colorSecondary,
-            label: 'Filtrar por apellido',
+            label: 'Buscar por nombre',
             onTap: () {
               context
-                  .read<DoctorBloc>()
-                  .add(DoctorEventChangedSearchFilter('Buscar por apellido'));
+                  .read<PatientListBloc>()
+                  .add(ChangedSearchFilter('Buscar por nombre'));
             }),
         SpeedDialChild(
             child: const Icon(Icons.person_search, color: Colors.white),
             backgroundColor: colorSecondary,
-            label: 'Filtrar por nombre',
+            label: 'Filtrar por apellido',
             onTap: () {
               context
-                  .read<DoctorBloc>()
-                  .add(DoctorEventChangedSearchFilter('Buscar por nombre'));
-            }),
-        SpeedDialChild(
-            child: const Icon(Icons.badge, color: Colors.white),
-            backgroundColor: colorSecondary,
-            label: 'Filtrar por especialidad',
-            onTap: () {
-              context.read<DoctorBloc>().add(
-                  DoctorEventChangedSearchFilter('Buscar por especialidad'));
+                  .read<PatientListBloc>()
+                  .add(ChangedSearchFilter('Buscar por apellido'));
             }),
       ],
     );
@@ -83,20 +77,20 @@ class SearchDoctorPage extends StatelessWidget {
   ///Widget AppBar
   PreferredSizeWidget _renderAppBar(BuildContext context) => AppBar(
         backgroundColor: colorPrimary,
-        title: Text(TextConstant.doctors.text),
+        title: Text(TextConstant.patients.text),
         centerTitle: true,
       );
 
   //Widget Body
-  Widget _body(BuildContext context, DoctorState state) {
-    if (state is DoctorStateInitial) {
-      context.read<DoctorBloc>().add(DoctorEventFetchBasicData());
+  Widget _body(BuildContext context, PatientListState state) {
+    if (state is PatientListInitial) {
+      context.read<PatientListBloc>().add(FetchBasicData());
     }
 
     return Stack(
       children: [
-        if (state is! DoctorStateInitial) _viewDoctorsRenderView(context),
-        if (state is DoctorStateInitial || state is DoctorStateLoading)
+        if (state is! PatientListInitial) _viewDoctorsRenderView(context),
+        if (state is PatientListInitial || state is PatientListLoading)
           const LoadingComponent(),
       ],
     );
@@ -114,20 +108,20 @@ class SearchDoctorPage extends StatelessWidget {
 
   /// This function [_buildDoctorSearchBar] is used to build the search bar of the doctors.
   Widget _buildDoctorSearchBar(BuildContext context) => SearchFieldComponent(
-      text: _searchDoctorController.text,
+      text: _searchPatientController.text,
       onSubmitted: (String value) {
         context
-            .read<DoctorBloc>()
-            .add(DoctorEventSearchDoctor(value.trim().toUpperCase()));
+            .read<PatientListBloc>()
+            .add(SearchPatient(value.trim().toUpperCase()));
       },
-      hintText: context.read<DoctorBloc>().searchFilter);
+      hintText: context.read<PatientListBloc>().searchFilter);
 
   //StreamBuilder for the Login Page
   Widget _doctorStreamBuilder(BuildContext builderContext) =>
-      StreamBuilder<List<DoctorRequestModel>>(
-          stream: builderContext.read<DoctorBloc>().streamDoctor,
+      StreamBuilder<List<PatientRequestModel>>(
+          stream: builderContext.read<PatientListBloc>().streamPatient,
           builder: (BuildContext context,
-              AsyncSnapshot<List<DoctorRequestModel>> snapshot) {
+              AsyncSnapshot<List<PatientRequestModel>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isNotEmpty) {
                 return _renderMainBody(context, snapshot.data!);
@@ -143,7 +137,8 @@ class SearchDoctorPage extends StatelessWidget {
             return const LoadingComponent();
           });
 
-  Widget _renderMainBody(BuildContext context, List<DoctorRequestModel> data) =>
+  Widget _renderMainBody(
+          BuildContext context, List<PatientRequestModel> data) =>
       Padding(
         padding: const EdgeInsets.only(top: 15, bottom: 15),
         child: ListView.builder(
@@ -154,7 +149,7 @@ class SearchDoctorPage extends StatelessWidget {
         ),
       );
 
-  Widget _renderDoctorItem(BuildContext context, DoctorRequestModel item) {
+  Widget _renderDoctorItem(BuildContext context, PatientRequestModel item) {
     //Log
     return Container(
         decoration: BoxDecoration(
@@ -187,53 +182,20 @@ class SearchDoctorPage extends StatelessWidget {
                           width: 40, height: 40, fit: BoxFit.cover)),
                   title: item.gender == 'M'
                       ? Text(
-                          'Dr. ${item.firstName} ${item.firstSurname}',
+                          'Sr. ${item.firstName} ${item.firstSurname}',
                           style: const TextStyle(fontSize: 18),
                         )
                       : Text(
-                          'Dra. ${item.firstName} ${item.firstSurname}',
+                          'Sra. ${item.firstName} ${item.firstSurname}',
                           style: const TextStyle(fontSize: 18),
                         ),
                   // subtitle:Text(item.specialties[0].specialty),
-                  subtitle: _searchDoctorController.text != ''
-                      ? Text(item.specialties
-                          .singleWhere((specialty) =>
-                              specialty.specialty ==
-                              _searchDoctorController.text.trim().toUpperCase())
-                          .specialty)
-                      : (item.specialties.length > 1
-                          ? Text(
-                              '${item.specialties[0].specialty} y ${item.specialties[1].specialty}',
-                              style: const TextStyle(fontSize: 12),
-                            )
-                          : Text(
-                              item.specialties[0].specialty,
-                              style: const TextStyle(fontSize: 12),
-                            )),
-
-                  trailing: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 30,
-                          color: Colors.yellow,
-                          shadows: [Shadow(color: colorBlack, blurRadius: 0.5)],
-                        ),
-                        Text(
-                          item.rating.toString().substring(0, 3),
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
+                  subtitle: Text(item.phoneNumber),
+                  trailing: null,
                   onTap: () {
                     context
-                        .read<DoctorBloc>()
-                        .add(DoctorEventNavigateTo('/doctor', item));
+                        .read<PatientListBloc>()
+                        .add(NavigateTo('/view_appointments', item));
                   },
                 ),
               ],

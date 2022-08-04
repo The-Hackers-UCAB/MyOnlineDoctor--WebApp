@@ -6,8 +6,7 @@ import 'package:my_online_doctor/infrastructure/core/repository_manager.dart';
 abstract class DoctorQueryProviderContract {
   static DoctorQueryProviderContract inject() => _DoctorQueryProvider();
 
-  Future<void> getDoctors(DoctorRequestModel? doctors);
-
+  Future<void> getDoctors(Map<String, dynamic>? filter);
 }
 
 enum DoctorQueryProviderError {
@@ -15,19 +14,16 @@ enum DoctorQueryProviderError {
   internalError,
 }
 
-
 class _DoctorQueryProvider extends DoctorQueryProviderContract {
-
   @override
-  Future<dynamic> getDoctors(DoctorRequestModel? doctors) async {
-
+  Future<dynamic> getDoctors(Map<String, dynamic>? filter) async {
     final response = await getIt<RepositoryManager>()
-    .request(operation: RepositoryConstant.operationPost.key, endpoint: RepositoryPathConstant.getDoctors.path,
-        body: doctors == null ? {} : doctors.toJson())
-    .catchError((onError) {
-
+        .request(
+            operation: RepositoryConstant.operationPost.key,
+            endpoint: RepositoryPathConstant.getDoctors.path,
+            body: filter ?? {})
+        .catchError((onError) {
       return null;
-
     });
 
     return response;

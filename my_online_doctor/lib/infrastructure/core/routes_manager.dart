@@ -1,17 +1,18 @@
 //Package imports:
 import 'package:flutter/material.dart';
 import 'package:my_online_doctor/domain/models/appointment/request_appointment_model.dart';
-import 'package:my_online_doctor/domain/models/medicalRecord/medical_record_domain_model.dart';
+import 'package:my_online_doctor/domain/models/doctor/doctor_request_model.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/appointment_detail_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/appointment/view_appointments_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/bottom_menu_component.dart';
 import 'package:my_online_doctor/infrastructure/ui/doctors/search_doctor_page.dart';
+import 'package:my_online_doctor/infrastructure/ui/doctors/doctor_page.dart';
 
 //Project imports:
 import 'package:my_online_doctor/infrastructure/ui/login/login_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/logout/logout_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/medical_history/view_medical_records_page.dart';
-import 'package:my_online_doctor/infrastructure/ui/medical_record/medical_record_page.dart';
+import 'package:my_online_doctor/infrastructure/ui/patient/search_patient_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/patient_profile/patient_profile_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/register/register_page.dart';
 import 'package:my_online_doctor/infrastructure/ui/video_call/call.dart';
@@ -32,6 +33,15 @@ class RoutesManager {
       case SearchDoctorPage.routeName:
         return MaterialPageRoute(builder: (context) => SearchDoctorPage());
 
+      case SearchPatientPage.routeName:
+        return MaterialPageRoute(builder: (context) => SearchPatientPage());
+
+      case DoctorPage.routeName:
+        return MaterialPageRoute(
+            builder: (context) => DoctorPage(
+                  doctor: arguments as DoctorRequestModel,
+                ));
+
       case PatientProfilePage.routeName:
         return MaterialPageRoute(builder: (context) => PatientProfilePage());
 
@@ -45,12 +55,14 @@ class RoutesManager {
                     ),
                     Icon(Icons.event, size: 30),
                     Icon(Icons.person_search, size: 30),
+                    Icon(Icons.contacts, size: 30),
                     Icon(Icons.logout_sharp, size: 30),
                   ],
                   screens: [
                     PatientProfilePage(),
                     ViewAppointmentsPage(),
                     SearchDoctorPage(),
+                    SearchPatientPage(),
                     LogoutPage(),
                   ],
                   index: arguments != null ? arguments as int : 1,

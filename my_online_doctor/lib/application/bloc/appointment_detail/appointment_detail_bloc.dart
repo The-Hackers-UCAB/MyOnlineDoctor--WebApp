@@ -80,6 +80,7 @@ class AppointmentDetailBloc
         builder: (BuildContext rootContext) => CallPage(
           channelName: response['channelName'],
           role: ClientRole.Broadcaster,
+          appointmentId: event.appointment.id,
         ),
       ),
     );

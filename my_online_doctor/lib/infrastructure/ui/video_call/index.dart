@@ -82,7 +82,6 @@ class _IndexPageState extends State<IndexPage> {
           : _validateError = false;
     });
     if (_channelController.text.isNotEmpty) {
-
       await window.navigator.getUserMedia(audio: true, video: true);
 
       await Navigator.push(

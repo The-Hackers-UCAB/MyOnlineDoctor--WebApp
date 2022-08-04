@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
-import 'package:my_online_doctor/infrastructure/core/constants/repository_constants.dart';
-import 'package:my_online_doctor/infrastructure/core/injection_manager.dart';
 import 'package:my_online_doctor/infrastructure/core/navigator_manager.dart';
-import 'package:my_online_doctor/infrastructure/core/repository_manager.dart';
-import 'package:my_online_doctor/infrastructure/ui/video_call/settings.dart';
+import '../../core/constants/repository_constants.dart';
+import '../../core/injection_manager.dart';
+import '../../core/repository_manager.dart';
+import './settings.dart';
 import 'package:http/http.dart' as http;
 
 class CallPage extends StatefulWidget {
   static const routeName = '/call';
-
   final String? channelName;
   final ClientRole? role;
   final String? appointmentId;
@@ -60,9 +59,8 @@ class _CallPageState extends State<CallPage> {
     }
 
     getRtcToken(String channel) async {
-      final url = 'https://agora-token-generator-online.herokuapp.com/rtc/' +
-          channel +
-          '/publisher/uid/0';
+      final url =
+          'https://agora-token-generator-online.herokuapp.com/rtc/$channel/publisher/uid/0';
 
       try {
         //arreglar esto
