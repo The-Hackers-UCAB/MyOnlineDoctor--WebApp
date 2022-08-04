@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 //Project imports:
 import 'package:my_online_doctor/domain/models/appointment/get_medical_record_model.dart';
 import 'package:my_online_doctor/infrastructure/core/constants/min_max_constants.dart';
+import 'package:my_online_doctor/infrastructure/core/constants/text_constants.dart';
 import 'package:my_online_doctor/infrastructure/ui/components/base_ui_component.dart';
+import 'package:my_online_doctor/infrastructure/ui/components/button_component.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/colors.dart';
 import 'package:my_online_doctor/infrastructure/ui/styles/theme.dart';
 
@@ -101,9 +103,21 @@ class MedicalRecord extends StatelessWidget {
                   record.recipe,
                   style: mainTheme().textTheme.headline3,
                 ),
+                const SizedBox(height: 20),
+                _requestAppointmentRenderButton(context)
               ],
             )
           ],
         ),
       );
+
+  Widget _requestAppointmentRenderButton(BuildContext context) => Container(
+      margin: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 25),
+      width: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.065,
+      child: ButtonComponent(
+          title: "Editar Registro",
+          actionButton: () {
+            print("hola");
+          }));
 }
