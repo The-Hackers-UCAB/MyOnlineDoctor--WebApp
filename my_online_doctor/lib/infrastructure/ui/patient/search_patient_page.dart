@@ -195,7 +195,7 @@ class SearchPatientPage extends StatelessWidget {
                   onTap: () {
                     context
                         .read<PatientListBloc>()
-                        .add(NavigateTo('/view_appointments', item));
+                        .add(NavigateTo('/patient_detail', item));
                   },
                 ),
               ],
