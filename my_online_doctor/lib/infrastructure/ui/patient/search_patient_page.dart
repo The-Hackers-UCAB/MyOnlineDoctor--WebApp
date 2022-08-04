@@ -130,7 +130,7 @@ class SearchPatientPage extends StatelessWidget {
                     margin: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.1),
                     child: const ShowErrorComponent(
-                        errorImagePath: 'assets/images/no_doctor_found.png'));
+                        errorImagePath: 'assets/images/no_patients.png'));
               }
             }
 
