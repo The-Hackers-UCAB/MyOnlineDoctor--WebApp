@@ -162,8 +162,11 @@ class ViewMedicalRecordsPage extends StatelessWidget {
                   onTap: () {
                     // AnaliticsService.logDetailedAppointment(item);
                     context.read<MedicalRecordBloc>().add(
-                        MedicalRecordEventNavigateToWith(
-                            '/medical_record_detail', item));
+                          MedicalRecordEventNavigateToWith(
+                            routeName: '/medical_record_detail',
+                            arguments: item,
+                          ),
+                        );
                   },
                 ),
               ],

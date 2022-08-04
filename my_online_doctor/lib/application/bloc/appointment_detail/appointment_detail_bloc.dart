@@ -110,8 +110,7 @@ class AppointmentDetailBloc
   void _navigateToWithEventToState(AppointmentDetailEventNavigateToWith event,
       Emitter<AppointmentDetailState> emit) {
     _dispose();
-    _navigatorManager.navigateToWithReplacement(event.routeName,
-        arguments: event.arguments);
+    _navigatorManager.navigateTo(event.routeName, arguments: event.arguments);
   }
 
   ///This method is called when the event is [AppointmentDetailEventCancelled]

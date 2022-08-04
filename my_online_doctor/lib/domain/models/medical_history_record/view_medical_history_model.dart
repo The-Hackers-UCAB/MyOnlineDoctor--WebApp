@@ -1,68 +1,45 @@
 //Package imports
 import 'dart:convert';
 
-import 'package:my_online_doctor/domain/models/patient/patient_request_model.dart';
+MedicalRecordModel getMedicalRecordModelFromJson(Map<String, dynamic> data) =>
+    MedicalRecordModel.fromJson(data);
 
-// List<RequestAppointmentModel> requestAppointmentModelFromJson(String str) => List<RequestAppointmentModel>.from(json.decode(str).map((x) => RequestAppointmentModel.fromJson(x)));
-
-RequestAppointmentModel requestAppointmentModelFromJson(
-        Map<String, dynamic> data) =>
-    RequestAppointmentModel.fromJson(data);
-
-// String requestAppointmentModelToJson(List<RequestAppointmentModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-///RequestAppointmentModel: Model for get the list of Appointments
-
-// class RequestAppointmentValue {
-
-//   List<RequestAppointmentModel> value;
-
-//   RequestAppointmentValue({
-//     required this.value,
-//   });
-
-//   factory RequestAppointmentValue.fromJson(Map<String, dynamic> json) => RequestAppointmentValue(
-//     value: List<RequestAppointmentModel>.from(json['value'].map((x) => RequestAppointmentModel.fromJson(x))),
-//   );
-
-//   Map<String, dynamic> toJson() => {
-//     "value": value,
-//   };
-
-// }
-
-class RequestAppointmentModel {
+class MedicalRecordModel {
   String id;
   DateTime? date;
   String description;
-  int? duration;
-  String status;
-  String type;
-  PatientRequestModel patient;
+  String diagnostic;
+  String exam;
+  String recipe;
+  Patient patient;
   Doctor doctor;
   Specialty specialty;
 
-  RequestAppointmentModel({
+  MedicalRecordModel({
     required this.id,
     required this.date,
     required this.description,
-    required this.duration,
-    required this.status,
-    required this.type,
     required this.patient,
     required this.doctor,
     required this.specialty,
+    required this.diagnostic,
+    required this.exam,
+    required this.recipe,
   });
 
-  factory RequestAppointmentModel.fromJson(Map<String, dynamic> json) =>
-      RequestAppointmentModel(
+  factory MedicalRecordModel.fromJson(Map<String, dynamic> json) =>
+      MedicalRecordModel(
         id: json['id'],
         date: json['date'] == null ? null : DateTime.parse(json['date']),
-        description: json['description'],
-        duration: json['duration'],
-        status: json['status'],
-        type: json['type'],
-        patient: PatientRequestModel.fromJson(json['patient']),
+        description: json['description'] == null
+            ? "Por Completar..."
+            : json['description'],
+        diagnostic: json['diagnostic'] == null
+            ? "Por Completar..."
+            : json['diagnostic'],
+        exam: json['exam'] == null ? "Por Completar..." : json['exam'],
+        recipe: json['recipe'] == null ? "Por Completar..." : json['recipe'],
+        patient: Patient.fromJson(json['patient']),
         doctor: Doctor.fromJson(json['doctor']),
         specialty: Specialty.fromJson(json['specialty']),
       );
@@ -71,9 +48,6 @@ class RequestAppointmentModel {
         'id': id,
         'date': date!.toIso8601String(),
         'description': description,
-        'duration': duration,
-        'status': status,
-        'type': type,
         'patient': patient.toJson(),
         'doctor': doctor.toJson(),
         'specialty': specialty.toJson(),
