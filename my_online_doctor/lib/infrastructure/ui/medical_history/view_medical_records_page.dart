@@ -104,7 +104,7 @@ class ViewMedicalRecordsPage extends StatelessWidget {
                       bottom: MediaQuery.of(context).size.height * 0.1),
                   child: const ShowErrorComponent(
                       errorImagePath:
-                          'assets/images/request_your_appointment.png'),
+                          'assets/images/no_appointments.png'),
                 );
               }
             }
