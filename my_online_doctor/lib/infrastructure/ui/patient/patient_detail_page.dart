@@ -127,7 +127,27 @@ class PatientDetailPage extends StatelessWidget {
           heightSeparator(context, 0.01),
           _buildPatientAllergies(context),
           heightSeparator(context, 0.01),
-          _buildPatientBackground(context)
+          _buildPatientBackground(context),
+          _patientMedicalRecordRenderButton(
+              context,
+              ButtonComponentStyle.primary,
+              "Registro Medico",
+              PatientRequestModel(
+                id: patient.id,
+                firstName: patient.firstName,
+                firstSurname: patient.firstSurname,
+                gender: patient.gender,
+                status: patient.status,
+                allergies: patient.allergies,
+                background: patient.background,
+                birthdate: patient.birthdate,
+                height: patient.height,
+                weight: patient.weight,
+                phoneNumber: patient.phoneNumber,
+                surgeries: patient.surgeries,
+                middleName: patient.middleName,
+                secondSurname: patient.secondSurname,
+              ))
         ]),
       );
 
@@ -259,38 +279,38 @@ class PatientDetailPage extends StatelessWidget {
         ),
       );
 
-  Widget _PatientRenderButton(
-          BuildContext context,
-          ButtonComponentStyle buttonComponentStyle,
-          String title,
-          PatientDetailEvent event) =>
-      Container(
-          margin:
-              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.065,
-          child: ButtonComponent(
-            style: buttonComponentStyle,
-            title: title,
-            actionButton: () => context.read<PatientDetailBloc>().add(event),
-          ));
-
-  // Widget _appointmentRenderButton(
-  //   BuildContext context,
-  //   ButtonComponentStyle buttonComponentStyle,
-  //   String title,
-  //   PatientDetailEvent event,
-  // ) =>
+  // Widget _PatientRenderButton(
+  //         BuildContext context,
+  //         ButtonComponentStyle buttonComponentStyle,
+  //         String title,
+  //         PatientDetailEvent event) =>
   //     Container(
   //         margin:
   //             const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
-  //         width: double.infinity / 2,
+  //         width: double.infinity,
   //         height: MediaQuery.of(context).size.height * 0.065,
   //         child: ButtonComponent(
   //           style: buttonComponentStyle,
   //           title: title,
-  //           actionButton: () => context
-  //               .read<PatientDetailBloc>()
-  //               .add(PatientDetailEventNavigateToWith('/patient_detail', item)),
+  //           actionButton: () => context.read<PatientDetailBloc>().add(event),
   //         ));
+
+  Widget _patientMedicalRecordRenderButton(
+    BuildContext context,
+    ButtonComponentStyle buttonComponentStyle,
+    String title,
+    PatientRequestModel item,
+  ) =>
+      Container(
+          margin:
+              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 25),
+          width: MediaQuery.of(context).size.width * 0.80,
+          height: MediaQuery.of(context).size.height * 0.065,
+          child: ButtonComponent(
+            style: buttonComponentStyle,
+            title: title,
+            actionButton: () => context.read<PatientDetailBloc>().add(
+                PatientDetailEventNavigateToWith('/view_appointments',
+                    arguments: item)),
+          ));
 }
